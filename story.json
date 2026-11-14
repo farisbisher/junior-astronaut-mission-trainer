@@ -1,0 +1,487 @@
+{
+ "title": "Junior Astronaut Mission Trainer",
+ "tagline": "Every choice you make builds your future self.",
+ "credits": "Story state machine for the web player. Code and text written with AI assistance (Claude Fable 5.2); idea and direction by Faris.",
+ "start": "open",
+ "specialists": {
+  "weather": {
+   "name": "Space-weather scientist",
+   "icon": "☀️",
+   "does": "Reads the Sun and buys warning time",
+   "meter": "shield"
+  },
+  "power": {
+   "name": "Power engineer",
+   "icon": "🔋",
+   "does": "Keeps the lights on",
+   "meter": "power"
+  },
+  "doctor": {
+   "name": "Space doctor",
+   "icon": "🩺",
+   "does": "Keeps the crew in one piece",
+   "meter": "shield"
+  },
+  "farmer": {
+   "name": "Space farmer",
+   "icon": "🌱",
+   "does": "Grows the food and the air",
+   "meter": "air"
+  },
+  "comms": {
+   "name": "Comms engineer",
+   "icon": "📡",
+   "does": "Keeps the outpost talking",
+   "meter": "air"
+  }
+ },
+ "meters": {
+  "scale": [
+   0,
+   5
+  ],
+  "start": {
+   "power": 3,
+   "air": 3,
+   "shield": 3
+  },
+  "labels": {
+   "power": "POWER",
+   "air": "AIR",
+   "shield": "SHIELD"
+  },
+  "icons": {
+   "power": "⚡",
+   "air": "💨",
+   "shield": "🧱"
+  }
+ },
+ "nodes": {
+  "open": {
+   "chapter": 1,
+   "clip": "open",
+   "next": "tv"
+  },
+  "tv": {
+   "chapter": 1,
+   "clip": "tv",
+   "loop": "tv_loop",
+   "next": "react1",
+   "fact": {
+    "text": "Real: in April 2026 a Saudi satellite called SHAMS flew toward the Moon with the Artemis II crew, to measure radiation from the Sun.",
+    "source": "shams"
+   },
+   "choice": {
+    "key": "c1",
+    "prompt": "What were you watching?",
+    "timer": 20,
+    "default": 0,
+    "options": [
+     {
+      "id": "engines",
+      "icon": "🚀",
+      "label": "The engines",
+      "opens": [
+       "power",
+       "comms"
+      ]
+     },
+     {
+      "id": "sun",
+      "icon": "☀️",
+      "label": "The Sun satellite",
+      "opens": [
+       "weather"
+      ]
+     },
+     {
+      "id": "crew",
+      "icon": "👩‍🚀",
+      "label": "The crew",
+      "opens": [
+       "doctor"
+      ]
+     }
+    ]
+   }
+  },
+  "react1": {
+   "chapter": 1,
+   "clip": "react_{c1}",
+   "next": "fair"
+  },
+  "fair": {
+   "chapter": 1,
+   "clip": "fair",
+   "loop": "fair_loop",
+   "next": "react2",
+   "fact": {
+    "text": "Real: the Madak space competition (2024) was open to ages 6 to 18. Ten winning experiments flew to the International Space Station.",
+    "source": "madak"
+   },
+   "choice": {
+    "key": "c2",
+    "prompt": "Pick your experiment.",
+    "timer": 20,
+    "default": 0,
+    "options": [
+     {
+      "id": "seeds",
+      "icon": "🌱",
+      "label": "Grow seeds",
+      "opens": [
+       "farmer"
+      ]
+     },
+     {
+      "id": "racer",
+      "icon": "🔋",
+      "label": "Solar racer",
+      "opens": [
+       "power"
+      ]
+     },
+     {
+      "id": "radio",
+      "icon": "📡",
+      "label": "Send a signal",
+      "opens": [
+       "comms",
+       "weather"
+      ]
+     }
+    ]
+   }
+  },
+  "react2": {
+   "chapter": 1,
+   "clip": "react_{c2}",
+   "next": "academy"
+  },
+  "academy": {
+   "chapter": 1,
+   "clip": "academy",
+   "loop": "academy_loop",
+   "next": "reveal",
+   "fact": {
+    "text": "Real: two Saudi astronauts flew to the International Space Station in May 2023, and the SARI 2 programme helps university students build and launch small satellites.",
+    "source": "pipeline"
+   },
+   "choice": {
+    "key": "specialist",
+    "prompt": "Pick a door.",
+    "timer": 0,
+    "doors": true
+   }
+  },
+  "reveal": {
+   "chapter": 1,
+   "clip": "reveal_{specialist}",
+   "next": "chapter1"
+  },
+  "chapter1": {
+   "chapter": 1,
+   "screen": "chapter",
+   "next": "mission"
+  },
+  "mission": {
+   "chapter": 2,
+   "clip": "arrive",
+   "meters": true,
+   "next": "flare"
+  },
+  "flare": {
+   "chapter": 2,
+   "clip": "flare_{storm}",
+   "loop": "flare_loop",
+   "next": "m1r",
+   "fact": {
+    "storm": true
+   },
+   "choice": {
+    "key": "m1",
+    "prompt": "The storm is coming. Use the warning time.",
+    "timer": 20,
+    "default": 0,
+    "options": [
+     {
+      "id": "m1a",
+      "icon": "🪨",
+      "label": "Bury the shelter",
+      "effects": {
+       "shield": 1,
+       "power": -1
+      },
+      "why": "Moon dirt on the roof blocks radiation. The rover drains the batteries."
+     },
+     {
+      "id": "m1b",
+      "icon": "⚡",
+      "label": "Charge up",
+      "effects": {
+       "power": 1,
+       "shield": -1
+      },
+      "why": "Full batteries for the long wait. The roof stays thin."
+     },
+     {
+      "id": "m1s",
+      "only": "weather",
+      "icon": "☀️",
+      "label": "Call it early",
+      "effects": {
+       "shield": 1,
+       "power": 1,
+       "air": -1
+      },
+      "why": "You read the first particles and start sooner. Time for both jobs, but nobody checks the air system."
+     }
+    ]
+   }
+  },
+  "m1r": {
+   "chapter": 2,
+   "clip": "{m1}",
+   "next": "particles"
+  },
+  "particles": {
+   "chapter": 2,
+   "clip": "particles",
+   "loop": "particles_loop",
+   "tax": true,
+   "next": "m2r",
+   "fact": {
+    "text": "Real: in the September 2017 storm, a detector inside the Space Station read about 1.5 times its normal dose. A thinly shielded detector in lunar orbit read more than 1,000 times. Shielding matters.",
+    "source": "radlab"
+   },
+   "choice": {
+    "key": "m2",
+    "prompt": "Batteries are dropping. The greenhouse lights are hungry!",
+    "timer": 12,
+    "default": 1,
+    "options": [
+     {
+      "id": "m2a",
+      "icon": "💨",
+      "label": "Lights on",
+      "effects": {
+       "air": 1,
+       "power": -1
+      },
+      "why": "The plants keep making oxygen. The lights eat power."
+     },
+     {
+      "id": "m2b",
+      "icon": "⚡",
+      "label": "Lights off",
+      "effects": {
+       "power": 1,
+       "air": -1
+      },
+      "why": "Power saved. The plants stop making oxygen, and lettuce takes 3 to 4 weeks to grow back."
+     },
+     {
+      "id": "m2p",
+      "only": "power",
+      "icon": "🔋",
+      "label": "Use the night battery",
+      "effects": {
+       "power": 1,
+       "air": 1
+      },
+      "later": {
+       "power": -1
+      },
+      "why": "Lights and air both run. The long lunar night will be colder."
+     },
+     {
+      "id": "m2f",
+      "only": "farmer",
+      "icon": "🌱",
+      "label": "Carry the trays in",
+      "effects": {
+       "air": 1,
+       "power": 1,
+       "shield": -1
+      },
+      "why": "The plants clean the air where you breathe. One last trip through the thin-walled room."
+     }
+    ]
+   }
+  },
+  "m2r": {
+   "chapter": 2,
+   "clip": "{m2}",
+   "next": "peak"
+  },
+  "peak": {
+   "chapter": 2,
+   "clip": "peak",
+   "loop": "peak_loop",
+   "next": "m3r",
+   "fact": {
+    "text": "Real: a radio message crosses from the Moon to Earth in 1.3 seconds. From Mars it can take up to 22 minutes each way, so crews must be ready to decide alone.",
+    "source": "delay"
+   },
+   "choice": {
+    "key": "m3",
+    "prompt": "The air cleaner froze. The reset switch is outside the shelter.",
+    "timer": 20,
+    "default": 0,
+    "options": [
+     {
+      "id": "m3a",
+      "icon": "🧱",
+      "label": "Stay put",
+      "effects": {
+       "shield": 1,
+       "air": -1
+      },
+      "why": "Safe behind the thick wall. The air gets stale."
+     },
+     {
+      "id": "m3b",
+      "icon": "💨",
+      "label": "Dash out",
+      "effects": {
+       "air": 1,
+       "shield": -2
+      },
+      "why": "Fresh air. You take radiation at the worst moment of the storm."
+     },
+     {
+      "id": "m3d",
+      "only": "doctor",
+      "icon": "🩺",
+      "label": "Lowest badge goes",
+      "effects": {
+       "air": 1,
+       "shield": -1
+      },
+      "why": "You send whoever has taken the least radiation, for the shortest time."
+     },
+     {
+      "id": "m3c",
+      "only": "comms",
+      "icon": "📡",
+      "label": "Reset it by remote",
+      "effects": {
+       "air": 1,
+       "power": -1
+      },
+      "why": "You drive the rover from inside. Nobody takes a dose. The rover drains the batteries."
+     }
+    ]
+   }
+  },
+  "m3r": {
+   "chapter": 2,
+   "clip": "{m3}",
+   "next": "ending"
+  },
+  "ending": {
+   "chapter": 2,
+   "clip": "end_{ending}",
+   "ending": true,
+   "next": "finale"
+  },
+  "finale": {
+   "chapter": 2,
+   "screen": "finale"
+  }
+ },
+ "storms": {
+  "_note": "One real storm is drawn at random each run. Archived NASA DONKI data: never shown as live.",
+  "jan": {
+   "name": "the January 2026 radiation storm",
+   "date": "18 January 2026",
+   "flare": "X1.9",
+   "warning": "about 5 hours",
+   "facts": "An X1.9 solar flare on 18 January 2026. Protons crossed the alert level about 5 hours later and climbed to 36,976 particle flux units. The eruption reached Earth about 25 hours after it left the Sun and caused a severe geomagnetic storm (Kp 8.67).",
+   "ids": [
+    "2026-01-18T17:27:00-FLR-001",
+    "2026-01-18T22:55:00-SEP-001",
+    "2026-01-19T18:00:00-GST-001"
+   ],
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/44059/1"
+  },
+  "may": {
+   "name": "the May 2024 storm",
+   "date": "11 May 2024",
+   "flare": "X5.8",
+   "warning": "about 1 hour",
+   "facts": "An X5.8 solar flare on 11 May 2024, during a Kp 9 geomagnetic storm (the top of the scale). Energetic protons arrived within about an hour.",
+   "ids": [
+    "2024-05-11T01:10:00-FLR-001",
+    "2024-05-11T02:10:00-SEP-001",
+    "2024-05-10T15:00:00-GST-001"
+   ],
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/30693/-1",
+   "tax": {
+    "shield": -1
+   },
+   "taxWaivedFor": "m1s",
+   "taxNote": "Only one hour of warning: the storm takes 1 SHIELD before you finish.",
+   "waivedNote": "You called it early: no shield lost."
+  }
+ },
+ "endings": {
+  "rule": "Your lowest meter decides.",
+  "thrive": {
+   "title": "The outpost rode out the storm.",
+   "line": "Nothing ran empty. Back to work."
+  },
+  "lesson": {
+   "title": "Everyone is safe. One thing ran low.",
+   "line": "Now you know why that meter matters."
+  },
+  "evac": {
+   "title": "Home early, and safe.",
+   "line": "One meter hit empty, so the crew flew home. The next crew will use your notes."
+  }
+ },
+ "realPath": {
+  "common": [
+   [
+    "Ages 6 to 18",
+    "Space competitions for school students, like Madak (2024), whose winning experiments flew to the Space Station.",
+    "madak"
+   ],
+   [
+    "University",
+    "SARI 2: build and launch a small satellite as a student team.",
+    "pipeline"
+   ],
+   [
+    "After that",
+    "Saudi astronauts have already flown: two went to the Space Station in May 2023.",
+    "ax2"
+   ]
+  ],
+  "weather": {
+   "study": "Physics or astronomy",
+   "real": "SHAMS, a Saudi satellite, flew with the Artemis II crew in 2026 to measure radiation from the Sun.",
+   "source": "shams"
+  },
+  "power": {
+   "study": "Electrical or mechanical engineering",
+   "real": "A night on most of the Moon lasts about two weeks, and the surface drops below minus 170 degrees Celsius. Power is everything.",
+   "source": "diviner"
+  },
+  "doctor": {
+   "study": "Medicine or biology",
+   "real": "On long missions astronauts lose about 1 to 1.5 percent of their bone density each month. Space doctors fight that.",
+   "source": "bone"
+  },
+  "farmer": {
+   "study": "Plant science or agricultural engineering",
+   "real": "NASA grew tomatoes on the Space Station for 101 days. Lettuce takes 21 to 28 days.",
+   "source": "veggie"
+  },
+  "comms": {
+   "study": "Computer or communications engineering",
+   "real": "A signal from the Moon reaches Earth in 1.3 seconds. From Mars it can take 22 minutes.",
+   "source": "delay"
+  }
+ }
+}

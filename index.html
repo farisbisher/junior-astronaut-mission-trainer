@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Junior Astronaut Mission Trainer</title>
+<meta name="description" content="An interactive film: your choices decide who you become on a lunar outpost, and how the crew rides out a real solar storm. Uses archived NASA data.">
+<meta name="generator" content="Hand-written HTML, CSS and JavaScript. Code written with AI assistance (Claude Fable 5.2).">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2715%27 fill=%27%23f07c14%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%230b0b0d%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="app">
+  <section id="stage" aria-label="Film">
+    <video id="vA" playsinline preload="auto"></video>
+    <video id="vB" playsinline preload="auto"></video>
+    <div id="doors" class="doors" aria-label="The five specialist doors"></div>
+    <div id="meters" class="meters" hidden></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <div id="caption" aria-live="off"></div>
+
+    <div id="start" class="card">
+      <div class="card-in">
+        <p class="eyebrow">NASA Space Apps Challenge 2026</p>
+        <h1>Junior Astronaut<br>Mission Trainer</h1>
+        <p class="lede">Every choice you make builds your future self.</p>
+        <button id="startBtn" class="big">Start</button>
+        <p class="small">Sound on. About 4 minutes. No account, nothing collected.</p>
+      </div>
+    </div>
+
+    <div id="chapter" class="card" hidden>
+      <div class="card-in wide">
+        <p class="eyebrow" id="chEyebrow">Chapter 1 complete</p>
+        <h2 id="chTitle"></h2>
+        <div id="chPath" class="path"></div>
+        <p class="small" id="chHint"></p>
+        <div id="chDoors" class="grid5"></div>
+        <div class="row">
+          <button id="againBtn" class="ghost">Try another childhood</button>
+          <button id="contBtn" class="big">Continue to the Moon</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="finale" class="card" hidden>
+    <div class="card-in wide left">
+      <p class="eyebrow" id="fnEyebrow"></p>
+      <h2 id="fnTitle"></h2>
+      <p class="lede" id="fnLine"></p>
+      <div id="fnMeters" class="path"></div>
+      <p class="box" id="fnCause"></p>
+      <div id="fnFlow" class="flow"></div>
+      <p class="box data" id="fnStorm"></p>
+      <div class="box path2" id="fnPath"></div>
+      <p class="small" id="fnHint"></p>
+      <div class="row">
+        <button id="newLife" class="ghost">Start a new childhood</button>
+        <button id="stormAgain" class="big">Face the storm again</button>
+      </div>
+      <p class="small"><button id="aboutBtn2" class="link">About, data and AI</button></p>
+    </div>
+  </div>
+
+  <section id="panel" hidden>
+    <p id="fact" hidden></p>
+    <p id="prompt" aria-live="polite"></p>
+    <div id="timer" hidden><i></i></div>
+    <div id="options"></div>
+  </section>
+
+  <footer>
+    <button id="aboutBtn" class="link">About, data and AI</button>
+    <label><input type="checkbox" id="capsOn" checked> Captions</label>
+    <label><input type="checkbox" id="noTimers"> No timers</label>
+  </footer>
+</main>
+
+<dialog id="about">
+  <div class="about-in">
+    <h2>About this film</h2>
+    <p>An entry for the NASA Space Apps Challenge 2026, "Junior Astronaut Mission Trainer". You play a child whose choices decide which specialist you become on a lunar outpost, and then how your crew rides out a real solar storm by trading power, air and shielding. The child is never shown: the hero on screen is your adult future self.</p>
+    <h3>NASA data, and how it is used</h3>
+    <ul>
+      <li><b>The storm is a real one.</b> Each run draws one event from NASA's DONKI archive (January 2026 or May 2024). Its real warning time changes the game: with one hour of warning the storm costs you shielding before you finish.</li>
+      <li><b>Why shielding matters</b> comes from NASA's RadLab dosimetry: the same storm read very differently inside the Space Station and in lunar orbit.</li>
+      <li><b>Food and air</b> use growing times from the Canadian Space Agency's toolkit and NASA's space-crop studies.</li>
+      <li>All of it is archived data built into the film. None of it is shown as live.</li>
+    </ul>
+    <h3>Sources</h3>
+    <ul id="sources"></ul>
+    <h3>How it was made, and where AI was used</h3>
+    <ul>
+      <li><b>Picture:</b> every frame is drawn by a program (three.js scenes rendered frame by frame in a browser, then encoded with ffmpeg). The program was written with AI assistance (Claude Fable 5.2, Anthropic). No AI image or video generator was used. Every clip carries a "Made with AI" mark.</li>
+      <li><b>Voices:</b> AI-generated speech (Kokoro-82M, an open-source text-to-speech model, run on our own computer through mlx-audio).</li>
+      <li><b>Music and sound effects:</b> synthesized in code (the open-source earshot sound bank).</li>
+      <li><b>This web player and the text:</b> written with AI assistance. The idea and direction are the team's.</li>
+      <li><b>Open-source software:</b> three.js, Puppeteer, ffmpeg, Kokoro-82M, mlx-audio, misaki, earshot.</li>
+    </ul>
+    <h3>Privacy</h3>
+    <p>Nothing is collected. There is no account. Your progress is kept only in this browser.</p>
+    <button id="aboutClose" class="big">Close</button>
+  </div>
+</dialog>
+<script type="module" src="player.js"></script>
+</body>
+</html>
