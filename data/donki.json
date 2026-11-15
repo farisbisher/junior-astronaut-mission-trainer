@@ -1,0 +1,1077 @@
+{
+ "source": "NASA DONKI (Space Weather Database Of Notifications, Knowledge, Information), Community Coordinated Modeling Center",
+ "api": "https://api.nasa.gov/DONKI/ (SEP, GST, CME, notifications)",
+ "pulled": "2026-11-14T23:38:34.294Z",
+ "range": [
+  "2024-01-01",
+  "2026-11-14"
+ ],
+ "note": "Archived events, pulled once by tools/fetch_data.mjs. Not live data. Warning time = flare start to the first measured particle event linked to that flare.",
+ "counts": {
+  "particleEvents": 214,
+  "geomagneticStorms": 62,
+  "flaresWithParticles": 40,
+  "completeChains": 9
+ },
+ "game": [
+  "s202511110949",
+  "s202405110110",
+  "s202511100855",
+  "s202410090125",
+  "s202403230058",
+  "s202601181727"
+ ],
+ "storms": [
+  {
+   "key": "s202401210003",
+   "date": "2024-01-21",
+   "flare": {
+    "id": "2024-01-21T00:03:00-FLR-001",
+    "start": "2024-01-21T00:03Z"
+   },
+   "particles": {
+    "id": "2024-01-22T13:42:00-SEP-001",
+    "time": "2024-01-22T13:42Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/28685/-1"
+   },
+   "warningMin": 2259,
+   "cloud": {
+    "id": "2024-01-21T00:36:00-CME-001",
+    "start": "2024-01-21T00:36Z",
+    "speedMin": 1057,
+    "speedMax": 1068,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/28663/-1"
+   }
+  },
+  {
+   "key": "s202401210035",
+   "date": "2024-01-21",
+   "flare": {
+    "id": "2024-01-21T00:35:00-FLR-001",
+    "start": "2024-01-21T00:35Z"
+   },
+   "particles": {
+    "id": "2024-01-22T13:42:00-SEP-001",
+    "time": "2024-01-22T13:42Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/28685/-1"
+   },
+   "warningMin": 2227,
+   "cloud": {
+    "id": "2024-01-21T00:36:00-CME-001",
+    "start": "2024-01-21T00:36Z",
+    "speedMin": 1057,
+    "speedMax": 1068,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/28663/-1"
+   }
+  },
+  {
+   "key": "s202401220609",
+   "date": "2024-01-22",
+   "flare": {
+    "id": "2024-01-22T06:09:00-FLR-001",
+    "start": "2024-01-22T06:09Z"
+   },
+   "particles": {
+    "id": "2024-01-22T13:42:00-SEP-001",
+    "time": "2024-01-22T13:42Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/28685/-1"
+   },
+   "warningMin": 453
+  },
+  {
+   "key": "s202401290354",
+   "date": "2024-01-29",
+   "flare": {
+    "id": "2024-01-29T03:54:00-FLR-001",
+    "start": "2024-01-29T03:54Z",
+    "class": "M6.8",
+    "peak": "2024-01-29T04:38Z",
+    "region": "N25W70",
+    "activeRegion": "13559",
+    "alert": "20240129-AL-003",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/28838/1"
+   },
+   "particles": {
+    "id": "2024-01-29T05:11:00-SEP-001",
+    "time": "2024-01-29T05:11Z",
+    "instrument": "STEREO A: IMPACT 13-100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/28836/-1"
+   },
+   "warningMin": 77,
+   "cloud": {
+    "id": "2024-01-29T04:38:00-CME-001",
+    "start": "2024-01-29T04:38Z",
+    "speedMin": 1277,
+    "speedMax": 1481,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/28848/-1"
+   }
+  },
+  {
+   "key": "s202402091253",
+   "date": "2024-02-09",
+   "flare": {
+    "id": "2024-02-09T12:53:00-FLR-001",
+    "start": "2024-02-09T12:53Z"
+   },
+   "particles": {
+    "id": "2024-02-09T15:09:00-SEP-001",
+    "time": "2024-02-09T15:09Z",
+    "instrument": "STEREO A: IMPACT 13-100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/29076/-1"
+   },
+   "warningMin": 136,
+   "cloud": {
+    "id": "2024-02-09T13:23:00-CME-001",
+    "start": "2024-02-09T13:23Z",
+    "speedMin": 1754,
+    "speedMax": 2534,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/29066/-1"
+   }
+  },
+  {
+   "key": "s202403230058",
+   "date": "2024-03-23",
+   "flare": {
+    "id": "2024-03-23T00:58:00-FLR-001",
+    "start": "2024-03-23T00:58Z",
+    "class": "X1.1",
+    "peak": "2024-03-23T01:33Z",
+    "region": "S14E15",
+    "activeRegion": "13615",
+    "alert": "20240323-AL-002",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/29710/1"
+   },
+   "particles": {
+    "id": "2024-03-23T05:57:00-SEP-001",
+    "time": "2024-03-23T05:57Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/29721/-1"
+   },
+   "warningMin": 299,
+   "cloud": {
+    "id": "2024-03-23T01:25:00-CME-001",
+    "start": "2024-03-23T01:25Z",
+    "speedMin": 1613,
+    "speedMax": 1613,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/29715/-1"
+   },
+   "storm": {
+    "id": "2024-03-24T12:00:00-GST-001",
+    "start": "2024-03-24T12:00Z",
+    "kpMax": 8,
+    "hoursAfterFlare": 35,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/29769/-1"
+   },
+   "say": "five hours",
+   "clip": "flare_300"
+  },
+  {
+   "key": "s202405082108",
+   "date": "2024-05-08",
+   "flare": {
+    "id": "2024-05-08T21:08:00-FLR-001",
+    "start": "2024-05-08T21:08Z"
+   },
+   "particles": {
+    "id": "2024-05-10T13:35:00-SEP-001",
+    "time": "2024-05-10T13:35Z",
+    "instrument": "GOES-P: SEISS >10 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30677/-1"
+   },
+   "warningMin": 2427,
+   "cloud": {
+    "id": "2024-05-08T22:24:00-CME-001",
+    "start": "2024-05-08T22:24Z",
+    "speedMin": 1130,
+    "speedMax": 1257,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/30640/-1"
+   },
+   "storm": {
+    "id": "2024-05-10T15:00:00-GST-001",
+    "start": "2024-05-10T15:00Z",
+    "kpMax": 9,
+    "hoursAfterFlare": 41.9,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/30693/-1"
+   }
+  },
+  {
+   "key": "s202405082205",
+   "date": "2024-05-08",
+   "flare": {
+    "id": "2024-05-08T22:05:00-FLR-001",
+    "start": "2024-05-08T22:05Z",
+    "class": "M9.8",
+    "peak": "2024-05-08T22:27Z",
+    "region": "S22W22",
+    "activeRegion": "13664",
+    "alert": "20240509-AL-003",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30608/1"
+   },
+   "particles": {
+    "id": "2024-05-10T13:35:00-SEP-001",
+    "time": "2024-05-10T13:35Z",
+    "instrument": "GOES-P: SEISS >10 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30677/-1"
+   },
+   "warningMin": 2370,
+   "cloud": {
+    "id": "2024-05-08T22:24:00-CME-001",
+    "start": "2024-05-08T22:24Z",
+    "speedMin": 1130,
+    "speedMax": 1257,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/30640/-1"
+   },
+   "storm": {
+    "id": "2024-05-10T15:00:00-GST-001",
+    "start": "2024-05-10T15:00Z",
+    "kpMax": 9,
+    "hoursAfterFlare": 40.9,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/30693/-1"
+   }
+  },
+  {
+   "key": "s202405090845",
+   "date": "2024-05-09",
+   "flare": {
+    "id": "2024-05-09T08:45:00-FLR-001",
+    "start": "2024-05-09T08:45Z",
+    "class": "X2.2",
+    "peak": "2024-05-09T09:13Z",
+    "region": "S20W25",
+    "activeRegion": "13664",
+    "alert": "20240509-AL-002",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30607/1"
+   },
+   "particles": {
+    "id": "2024-05-10T12:59:00-SEP-001",
+    "time": "2024-05-10T12:59Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30675/-1"
+   },
+   "warningMin": 1694,
+   "cloud": {
+    "id": "2024-05-09T09:24:00-CME-001",
+    "start": "2024-05-09T09:24Z",
+    "speedMin": 1330,
+    "speedMax": 1561,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/30619/-1"
+   },
+   "storm": {
+    "id": "2024-05-10T15:00:00-GST-001",
+    "start": "2024-05-10T15:00Z",
+    "kpMax": 9,
+    "hoursAfterFlare": 30.3,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/30693/-1"
+   }
+  },
+  {
+   "key": "s202405091723",
+   "date": "2024-05-09",
+   "flare": {
+    "id": "2024-05-09T17:23:00-FLR-001",
+    "start": "2024-05-09T17:23Z",
+    "class": "X1.1",
+    "peak": "2024-05-09T17:44Z",
+    "region": "S18W29",
+    "activeRegion": "13664",
+    "alert": "20240509-AL-008",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30636/1"
+   },
+   "particles": {
+    "id": "2024-05-10T12:59:00-SEP-001",
+    "time": "2024-05-10T12:59Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30675/-1"
+   },
+   "warningMin": 1176,
+   "cloud": {
+    "id": "2024-05-09T18:23:00-CME-001",
+    "start": "2024-05-09T18:23Z",
+    "speedMin": 895,
+    "speedMax": 1236,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/30655/-1"
+   }
+  },
+  {
+   "key": "s202405100627",
+   "date": "2024-05-10",
+   "flare": {
+    "id": "2024-05-10T06:27:00-FLR-001",
+    "start": "2024-05-10T06:27Z",
+    "class": "X3.9",
+    "peak": "2024-05-10T06:54Z",
+    "region": "S18W37",
+    "activeRegion": "13664",
+    "alert": "20240510-AL-002",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30668/1"
+   },
+   "particles": {
+    "id": "2024-05-10T12:59:00-SEP-001",
+    "time": "2024-05-10T12:59Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30675/-1"
+   },
+   "warningMin": 392,
+   "cloud": {
+    "id": "2024-05-10T07:12:00-CME-001",
+    "start": "2024-05-10T07:12Z",
+    "speedMin": 1018,
+    "speedMax": 1332,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/30670/-1"
+   },
+   "storm": {
+    "id": "2024-05-12T21:00:00-GST-001",
+    "start": "2024-05-12T21:00Z",
+    "kpMax": 6.33,
+    "hoursAfterFlare": 62.5,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/30798/-1"
+   }
+  },
+  {
+   "key": "s202405101358",
+   "date": "2024-05-10",
+   "flare": {
+    "id": "2024-05-10T13:58:00-FLR-001",
+    "start": "2024-05-10T13:58Z",
+    "class": "M5.9",
+    "peak": "2024-05-10T14:11Z",
+    "region": "S16W40",
+    "activeRegion": "13664",
+    "alert": "20240510-AL-007",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30682/1"
+   },
+   "particles": {
+    "id": "2024-05-10T14:50:00-SEP-001",
+    "time": "2024-05-10T14:50Z",
+    "instrument": "STEREO A: IMPACT 13-100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30684/-1"
+   },
+   "warningMin": 52
+  },
+  {
+   "key": "s202405110110",
+   "date": "2024-05-11",
+   "flare": {
+    "id": "2024-05-11T01:10:00-FLR-001",
+    "start": "2024-05-11T01:10Z",
+    "class": "X5.8",
+    "peak": "2024-05-11T01:23Z",
+    "region": "S17W47",
+    "alert": "20240511-AL-005",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30713/1"
+   },
+   "particles": {
+    "id": "2024-05-11T02:10:00-SEP-001",
+    "time": "2024-05-11T02:10Z",
+    "instrument": "GOES-P: SEISS >100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30714/-1"
+   },
+   "warningMin": 60,
+   "cloud": {
+    "id": "2024-05-11T01:36:00-CME-001",
+    "start": "2024-05-11T01:36Z",
+    "speedMin": 1263,
+    "speedMax": 1820,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/30719/-1"
+   },
+   "say": "one hour",
+   "clip": "flare_60"
+  },
+  {
+   "key": "s202405130806",
+   "date": "2024-05-13",
+   "flare": {
+    "id": "2024-05-13T08:06:00-FLR-001",
+    "start": "2024-05-13T08:06Z"
+   },
+   "particles": {
+    "id": "2024-05-13T12:44:00-SEP-001",
+    "time": "2024-05-13T12:44Z",
+    "instrument": "STEREO A: IMPACT 13-100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30811/-1"
+   },
+   "warningMin": 278,
+   "cloud": {
+    "id": "2024-05-13T09:12:00-CME-001",
+    "start": "2024-05-13T09:12Z",
+    "speedMin": 1456,
+    "speedMax": 1935,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/30814/-1"
+   }
+  },
+  {
+   "key": "s202405130823",
+   "date": "2024-05-13",
+   "flare": {
+    "id": "2024-05-13T08:23:00-FLR-001",
+    "start": "2024-05-13T08:23Z"
+   },
+   "particles": {
+    "id": "2024-05-13T12:44:00-SEP-001",
+    "time": "2024-05-13T12:44Z",
+    "instrument": "STEREO A: IMPACT 13-100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30811/-1"
+   },
+   "warningMin": 261,
+   "cloud": {
+    "id": "2024-05-13T09:12:00-CME-001",
+    "start": "2024-05-13T09:12Z",
+    "speedMin": 1456,
+    "speedMax": 1935,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/30814/-1"
+   }
+  },
+  {
+   "key": "s202405130847",
+   "date": "2024-05-13",
+   "flare": {
+    "id": "2024-05-13T08:47:00-FLR-001",
+    "start": "2024-05-13T08:47Z"
+   },
+   "particles": {
+    "id": "2024-05-13T12:44:00-SEP-001",
+    "time": "2024-05-13T12:44Z",
+    "instrument": "STEREO A: IMPACT 13-100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30811/-1"
+   },
+   "warningMin": 237,
+   "cloud": {
+    "id": "2024-05-13T09:12:00-CME-001",
+    "start": "2024-05-13T09:12Z",
+    "speedMin": 1456,
+    "speedMax": 1935,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/30814/-1"
+   }
+  },
+  {
+   "key": "s202405130936",
+   "date": "2024-05-13",
+   "flare": {
+    "id": "2024-05-13T09:36:00-FLR-001",
+    "start": "2024-05-13T09:36Z",
+    "class": "M6.6",
+    "peak": "2024-05-13T09:44Z",
+    "region": "S17W77",
+    "activeRegion": "13664",
+    "alert": "20240513-AL-004",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30805/1"
+   },
+   "particles": {
+    "id": "2024-05-13T12:44:00-SEP-001",
+    "time": "2024-05-13T12:44Z",
+    "instrument": "STEREO A: IMPACT 13-100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30811/-1"
+   },
+   "warningMin": 188,
+   "cloud": {
+    "id": "2024-05-13T09:12:00-CME-001",
+    "start": "2024-05-13T09:12Z",
+    "speedMin": 1456,
+    "speedMax": 1935,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/30814/-1"
+   }
+  },
+  {
+   "key": "s202406080039",
+   "date": "2024-06-08",
+   "flare": {
+    "id": "2024-06-08T00:39:00-FLR-001",
+    "start": "2024-06-08T00:39Z"
+   },
+   "particles": {
+    "id": "2024-06-08T02:25:00-SEP-001",
+    "time": "2024-06-08T02:25Z",
+    "instrument": "GOES-P: SEISS >100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/31338/-1"
+   },
+   "warningMin": 106,
+   "cloud": {
+    "id": "2024-06-08T01:53:00-CME-001",
+    "start": "2024-06-08T01:53Z",
+    "speedMin": 1106,
+    "speedMax": 1528,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/31346/-1"
+   }
+  },
+  {
+   "key": "s202406080123",
+   "date": "2024-06-08",
+   "flare": {
+    "id": "2024-06-08T01:23:00-FLR-001",
+    "start": "2024-06-08T01:23Z",
+    "class": "M9.7",
+    "peak": "2024-06-08T01:49Z",
+    "region": "S17W68",
+    "activeRegion": "13697",
+    "alert": "20240608-AL-002",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/31337/1"
+   },
+   "particles": {
+    "id": "2024-06-08T02:25:00-SEP-001",
+    "time": "2024-06-08T02:25Z",
+    "instrument": "GOES-P: SEISS >100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/31338/-1"
+   },
+   "warningMin": 62,
+   "cloud": {
+    "id": "2024-06-08T01:53:00-CME-001",
+    "start": "2024-06-08T01:53Z",
+    "speedMin": 1106,
+    "speedMax": 1528,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/31346/-1"
+   }
+  },
+  {
+   "key": "s202408051324",
+   "date": "2024-08-05",
+   "flare": {
+    "id": "2024-08-05T13:24:00-FLR-001",
+    "start": "2024-08-05T13:24Z",
+    "class": "X1.7",
+    "peak": "2024-08-05T13:40Z",
+    "region": "S13W99",
+    "activeRegion": "13765",
+    "alert": "20240805-AL-005",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/32547/1"
+   },
+   "particles": {
+    "id": "2024-08-05T17:26:00-SEP-001",
+    "time": "2024-08-05T17:26Z",
+    "instrument": "STEREO A: IMPACT 13-100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/32560/-1"
+   },
+   "warningMin": 242,
+   "cloud": {
+    "id": "2024-08-05T13:48:00-CME-001",
+    "start": "2024-08-05T13:48Z",
+    "speedMin": 1095,
+    "speedMax": 1095,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/32570/-1"
+   }
+  },
+  {
+   "key": "s202409011145",
+   "date": "2024-09-01",
+   "flare": {
+    "id": "2024-09-01T11:45:00-FLR-001",
+    "start": "2024-09-01T11:45Z",
+    "class": "M5.5",
+    "peak": "2024-09-01T13:22Z",
+    "region": "S25E90",
+    "alert": "20240901-AL-003",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/33096/1"
+   },
+   "particles": {
+    "id": "2024-09-01T23:14:00-SEP-001",
+    "time": "2024-09-01T23:14Z",
+    "instrument": "STEREO A: IMPACT 13-100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/33103/-1"
+   },
+   "warningMin": 689,
+   "cloud": {
+    "id": "2024-09-01T12:23:00-CME-001",
+    "start": "2024-09-01T12:23Z",
+    "speedMin": 1247,
+    "speedMax": 1247,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/33098/-1"
+   }
+  },
+  {
+   "key": "s202409091658",
+   "date": "2024-09-09",
+   "flare": {
+    "id": "2024-09-09T16:58:00-FLR-001",
+    "start": "2024-09-09T16:58Z"
+   },
+   "particles": {
+    "id": "2024-09-09T20:55:00-SEP-002",
+    "time": "2024-09-09T20:55Z",
+    "instrument": "STEREO A: IMPACT 13-100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/33290/-1"
+   },
+   "warningMin": 237
+  },
+  {
+   "key": "s202410090125",
+   "date": "2024-10-09",
+   "flare": {
+    "id": "2024-10-09T01:25:00-FLR-001",
+    "start": "2024-10-09T01:25Z",
+    "class": "X1.8",
+    "peak": "2024-10-09T01:56Z",
+    "region": "N13W08",
+    "activeRegion": "13848",
+    "alert": "20241009-AL-002",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/33865/1"
+   },
+   "particles": {
+    "id": "2024-10-09T03:50:00-SEP-001",
+    "time": "2024-10-09T03:50Z",
+    "instrument": "GOES-P: SEISS >100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/33868/-1"
+   },
+   "warningMin": 145,
+   "cloud": {
+    "id": "2024-10-09T02:12:00-CME-001",
+    "start": "2024-10-09T02:12Z",
+    "speedMin": 1509,
+    "speedMax": 2112,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/33873/-1"
+   },
+   "storm": {
+    "id": "2024-10-10T15:00:00-GST-001",
+    "start": "2024-10-10T15:00Z",
+    "kpMax": 8.67,
+    "hoursAfterFlare": 37.6,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/33913/-1"
+   },
+   "say": "two and a half hours",
+   "clip": "flare_150"
+  },
+  {
+   "key": "s202410260557",
+   "date": "2024-10-26",
+   "flare": {
+    "id": "2024-10-26T05:57:00-FLR-001",
+    "start": "2024-10-26T05:57Z",
+    "class": "M9.5",
+    "peak": "2024-10-26T06:23Z",
+    "region": "S14E56",
+    "activeRegion": "13873",
+    "alert": "20241026-AL-003",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/34207/1"
+   },
+   "particles": {
+    "id": "2024-10-26T18:05:00-SEP-001",
+    "time": "2024-10-26T18:05Z",
+    "instrument": "GOES-P: SEISS >10 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/34222/-1"
+   },
+   "warningMin": 728,
+   "cloud": {
+    "id": "2024-10-26T06:48:00-CME-001",
+    "start": "2024-10-26T06:48Z",
+    "speedMin": 1523,
+    "speedMax": 1677,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/34212/-1"
+   }
+  },
+  {
+   "key": "s202410260632",
+   "date": "2024-10-26",
+   "flare": {
+    "id": "2024-10-26T06:32:00-FLR-001",
+    "start": "2024-10-26T06:32Z",
+    "class": "X1.8",
+    "peak": "2024-10-26T07:19Z",
+    "region": "S16E60",
+    "activeRegion": "13873",
+    "alert": "20241026-AL-004",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/34208/1"
+   },
+   "particles": {
+    "id": "2024-10-26T18:05:00-SEP-001",
+    "time": "2024-10-26T18:05Z",
+    "instrument": "GOES-P: SEISS >10 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/34222/-1"
+   },
+   "warningMin": 693,
+   "cloud": {
+    "id": "2024-10-26T06:48:00-CME-001",
+    "start": "2024-10-26T06:48Z",
+    "speedMin": 1523,
+    "speedMax": 1677,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/34212/-1"
+   }
+  },
+  {
+   "key": "s202412200720",
+   "date": "2024-12-20",
+   "flare": {
+    "id": "2024-12-20T07:20:00-FLR-001",
+    "start": "2024-12-20T07:20Z"
+   },
+   "particles": {
+    "id": "2024-12-21T16:12:00-SEP-001",
+    "time": "2024-12-21T16:12Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/35838/-1"
+   },
+   "warningMin": 1972
+  },
+  {
+   "key": "s202412201115",
+   "date": "2024-12-20",
+   "flare": {
+    "id": "2024-12-20T11:15:00-FLR-001",
+    "start": "2024-12-20T11:15Z"
+   },
+   "particles": {
+    "id": "2024-12-21T16:12:00-SEP-001",
+    "time": "2024-12-21T16:12Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/35838/-1"
+   },
+   "warningMin": 1737
+  },
+  {
+   "key": "s202412210033",
+   "date": "2024-12-21",
+   "flare": {
+    "id": "2024-12-21T00:33:00-FLR-001",
+    "start": "2024-12-21T00:33Z"
+   },
+   "particles": {
+    "id": "2024-12-21T16:12:00-SEP-001",
+    "time": "2024-12-21T16:12Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/35838/-1"
+   },
+   "warningMin": 939
+  },
+  {
+   "key": "s202501041424",
+   "date": "2025-01-04",
+   "flare": {
+    "id": "2025-01-04T14:24:00-FLR-001",
+    "start": "2025-01-04T14:24Z"
+   },
+   "particles": {
+    "id": "2025-01-04T21:46:00-SEP-001",
+    "time": "2025-01-04T21:46Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/36261/-1"
+   },
+   "warningMin": 442,
+   "cloud": {
+    "id": "2025-01-04T15:12:00-CME-001",
+    "start": "2025-01-04T15:12Z",
+    "speedMin": 892,
+    "speedMax": 892,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/36256/-1"
+   }
+  },
+  {
+   "key": "s202501041846",
+   "date": "2025-01-04",
+   "flare": {
+    "id": "2025-01-04T18:46:00-FLR-001",
+    "start": "2025-01-04T18:46Z"
+   },
+   "particles": {
+    "id": "2025-01-04T21:46:00-SEP-001",
+    "time": "2025-01-04T21:46Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/36261/-1"
+   },
+   "warningMin": 180,
+   "cloud": {
+    "id": "2025-01-04T18:48:00-CME-001",
+    "start": "2025-01-04T18:48Z",
+    "speedMin": 1590,
+    "speedMax": 1603,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/36254/-1"
+   }
+  },
+  {
+   "key": "s202502242150",
+   "date": "2025-02-24",
+   "flare": {
+    "id": "2025-02-24T21:50:00-FLR-001",
+    "start": "2025-02-24T21:50Z"
+   },
+   "particles": {
+    "id": "2025-02-25T00:11:00-SEP-001",
+    "time": "2025-02-25T00:11Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/37542/-1"
+   },
+   "warningMin": 141,
+   "cloud": {
+    "id": "2025-02-24T21:24:00-CME-001",
+    "start": "2025-02-24T21:24Z",
+    "speedMin": 1239,
+    "speedMax": 1627,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/37530/-1"
+   }
+  },
+  {
+   "key": "s202505131525",
+   "date": "2025-05-13",
+   "flare": {
+    "id": "2025-05-13T15:25:00-FLR-001",
+    "start": "2025-05-13T15:25Z",
+    "class": "X1.2",
+    "peak": "2025-05-13T15:38Z",
+    "region": "N07W80",
+    "activeRegion": "14086",
+    "alert": "20250513-AL-002",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/38842/1"
+   },
+   "particles": {
+    "id": "2025-05-13T18:14:00-SEP-001",
+    "time": "2025-05-13T18:14Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/38846/-1"
+   },
+   "warningMin": 169,
+   "cloud": {
+    "id": "2025-05-13T16:15:00-CME-001",
+    "start": "2025-05-13T16:15Z",
+    "speedMin": 769,
+    "speedMax": 769,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/38852/-1"
+   }
+  },
+  {
+   "key": "s202505302331",
+   "date": "2025-05-30",
+   "flare": {
+    "id": "2025-05-30T23:31:00-FLR-001",
+    "start": "2025-05-30T23:31Z",
+    "class": "M8.1",
+    "peak": "2025-05-31T00:05Z",
+    "region": "N12E12",
+    "activeRegion": "14100",
+    "alert": "20250531-AL-002",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/39184/1"
+   },
+   "particles": {
+    "id": "2025-05-31T15:00:00-SEP-001",
+    "time": "2025-05-31T15:00Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/39197/-1"
+   },
+   "warningMin": 929,
+   "cloud": {
+    "id": "2025-05-31T00:15:00-CME-001",
+    "start": "2025-05-31T00:15Z",
+    "speedMin": 1302,
+    "speedMax": 2371,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/39185/-1"
+   },
+   "storm": {
+    "id": "2025-06-01T06:00:00-GST-001",
+    "start": "2025-06-01T06:00Z",
+    "kpMax": 8,
+    "hoursAfterFlare": 30.5,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/39234/-1"
+   }
+  },
+  {
+   "key": "s202511100855",
+   "date": "2025-11-10",
+   "flare": {
+    "id": "2025-11-10T08:55:00-FLR-001",
+    "start": "2025-11-10T08:55Z",
+    "class": "X1.2",
+    "peak": "2025-11-10T09:19Z",
+    "region": "N25W16",
+    "activeRegion": "14274",
+    "alert": "20251110-AL-005",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/42574/1"
+   },
+   "particles": {
+    "id": "2025-11-10T10:45:00-SEP-002",
+    "time": "2025-11-10T10:45Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42585/-1"
+   },
+   "warningMin": 110,
+   "cloud": {
+    "id": "2025-11-10T09:36:00-CME-001",
+    "start": "2025-11-10T09:36Z",
+    "speedMin": 1196,
+    "speedMax": 1298,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/42575/-1"
+   },
+   "storm": {
+    "id": "2025-11-12T00:00:00-GST-001",
+    "start": "2025-11-12T00:00Z",
+    "kpMax": 8.67,
+    "hoursAfterFlare": 39.1,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/42642/-1"
+   },
+   "say": "almost two hours",
+   "clip": "flare_110"
+  },
+  {
+   "key": "s202511110949",
+   "date": "2025-11-11",
+   "flare": {
+    "id": "2025-11-11T09:49:00-FLR-001",
+    "start": "2025-11-11T09:49Z",
+    "class": "X5.1",
+    "peak": "2025-11-11T10:04Z",
+    "region": "N27W27",
+    "activeRegion": "14274",
+    "alert": "20251111-AL-006",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/42614/1"
+   },
+   "particles": {
+    "id": "2025-11-11T10:20:00-SEP-001",
+    "time": "2025-11-11T10:20Z",
+    "instrument": "GOES-P: SEISS >100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42612/-1"
+   },
+   "warningMin": 31,
+   "cloud": {
+    "id": "2025-11-11T10:23:00-CME-001",
+    "start": "2025-11-11T10:23Z",
+    "speedMin": 1715,
+    "speedMax": 1856,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/42621/-1"
+   },
+   "storm": {
+    "id": "2025-11-12T18:00:00-GST-001",
+    "start": "2025-11-12T18:00Z",
+    "kpMax": 7.33,
+    "hoursAfterFlare": 32.2,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/42662/-1"
+   },
+   "say": "half an hour",
+   "clip": "flare_30"
+  },
+  {
+   "key": "s202511140744",
+   "date": "2025-11-14",
+   "flare": {
+    "id": "2025-11-14T07:44:00-FLR-001",
+    "start": "2025-11-14T07:44Z",
+    "class": "X4.0",
+    "peak": "2025-11-14T08:30Z",
+    "region": "N24W71",
+    "activeRegion": "14274",
+    "alert": "20251114-AL-004",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/42706/1"
+   },
+   "particles": {
+    "id": "2025-11-14T09:20:00-SEP-001",
+    "time": "2025-11-14T09:20Z",
+    "instrument": "GOES-P: SEISS >10 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42704/-1"
+   },
+   "warningMin": 96,
+   "cloud": {
+    "id": "2025-11-14T08:00:00-CME-001",
+    "start": "2025-11-14T08:00Z",
+    "speedMin": 1082,
+    "speedMax": 1534,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/42713/-1"
+   }
+  },
+  {
+   "key": "s202601181727",
+   "date": "2026-01-18",
+   "flare": {
+    "id": "2026-01-18T17:27:00-FLR-001",
+    "start": "2026-01-18T17:27Z",
+    "class": "X1.9",
+    "peak": "2026-01-18T18:09Z",
+    "region": "S15E20",
+    "activeRegion": "14341",
+    "alert": "20260118-AL-004",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/44030/1"
+   },
+   "particles": {
+    "id": "2026-01-18T22:33:00-SEP-001",
+    "time": "2026-01-18T22:33Z",
+    "instrument": "SOHO: COSTEP 15.8-39.8 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/44039/-1"
+   },
+   "warningMin": 306,
+   "cloud": {
+    "id": "2026-01-18T18:09:00-CME-001",
+    "start": "2026-01-18T18:09Z",
+    "speedMin": 1473,
+    "speedMax": 1820,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44032/-1"
+   },
+   "storm": {
+    "id": "2026-01-19T18:00:00-GST-001",
+    "start": "2026-01-19T18:00Z",
+    "kpMax": 8.67,
+    "hoursAfterFlare": 24.6,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/44061/-1"
+   },
+   "say": "five hours",
+   "clip": "flare_300"
+  },
+  {
+   "key": "s202607301553",
+   "date": "2026-07-30",
+   "flare": {
+    "id": "2026-07-30T15:53:00-FLR-001",
+    "start": "2026-07-30T15:53Z"
+   },
+   "particles": {
+    "id": "2026-07-30T18:25:00-SEP-001",
+    "time": "2026-07-30T18:25Z",
+    "instrument": "GOES-P: SEISS >100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/47873/-1"
+   },
+   "warningMin": 152,
+   "cloud": {
+    "id": "2026-07-30T16:53:00-CME-001",
+    "start": "2026-07-30T16:53Z",
+    "speedMin": 930,
+    "speedMax": 1549,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/47871/-1"
+   },
+   "storm": {
+    "id": "2026-08-02T15:00:00-GST-001",
+    "start": "2026-08-02T15:00Z",
+    "kpMax": 5.67,
+    "hoursAfterFlare": 71.1,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/47932/-1"
+   }
+  },
+  {
+   "key": "s202608210909",
+   "date": "2026-08-21",
+   "flare": {
+    "id": "2026-08-21T09:09:00-FLR-001",
+    "start": "2026-08-21T09:09Z"
+   },
+   "particles": {
+    "id": "2026-08-21T17:33:00-SEP-001",
+    "time": "2026-08-21T17:33Z",
+    "instrument": "STEREO A: IMPACT 13-100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48198/-1"
+   },
+   "warningMin": 504,
+   "cloud": {
+    "id": "2026-08-21T09:36:00-CME-001",
+    "start": "2026-08-21T09:36Z",
+    "speedMin": 1329,
+    "speedMax": 1862,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48186/-1"
+   }
+  },
+  {
+   "key": "s202609051504",
+   "date": "2026-09-05",
+   "flare": {
+    "id": "2026-09-05T15:04:00-FLR-001",
+    "start": "2026-09-05T15:04Z"
+   },
+   "particles": {
+    "id": "2026-09-05T15:45:00-SEP-001",
+    "time": "2026-09-05T15:45Z",
+    "instrument": "GOES-P: SEISS >100 MeV",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48551/-1"
+   },
+   "warningMin": 41,
+   "cloud": {
+    "id": "2026-09-05T15:36:00-CME-001",
+    "start": "2026-09-05T15:36Z",
+    "speedMin": 892,
+    "speedMax": 1111,
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48561/-1"
+   }
+  }
+ ]
+}

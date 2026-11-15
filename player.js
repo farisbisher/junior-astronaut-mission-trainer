@@ -1,16 +1,20 @@
 // Junior Astronaut Mission Trainer: the branching player.
-// A small state machine (story.json) drives two stacked <video> elements: one plays, the other is loaded with what
-// comes next, and they cross-fade. An idle loop plays behind every choice. Three meters (power, air, shielding)
-// move with every mission decision. Nothing is collected or sent anywhere.
-// Code written with AI assistance (Claude Fable 5.2).
-const $ = s => document.querySelector(s);
-const vids = [$('#vA'), $('#vB')];
-let STORY, CLIPS, cur = 0, node = null, clipName = null, nav = 0, actx = null, loopSrc = null, loopGain = null, timerId = 0;
-const S = { vars: {}, open: new Set(), meters: null, log: [] };
-const blobs = new Map(), abufs = new Map();
+// A small state machine (story.json) drives two stacked <video> elements. The clip that comes next waits on the
+// hidden one, already on its first frame, so every change of clip is a hard cut: no fades, no black. An idle loop
+// (the same shot, still waiting) runs behind each choice, and one music bed per chapter plays across the cuts.
+// Everything the player reads or presses is drawn on the picture: the choices (each appears as the film names it),
+// the objective, tutorial hints, names for things in the shot, and every consequence as a meter change with its reason.
+// The storm is real: each run draws one from data/donki.json, which tools/fetch_data.mjs pulled from NASA's DONKI API.
+// Nothing is collected or sent anywhere. Code written with AI assistance (Claude Fable 5.2).
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const stage = $('#stage'), vids = [$('#vA'), $('#vB')];
+let STORY, CLIPS, DONKI, cur = 0, node = null, clipName = null, nav = 0, Q = [], idle = false, busy = false, timerId = 0, lateId = 0, actx = null, tipHtml = '';
+const S = { vars: {}, open: new Set(), meters: null, pending: {}, log: [], storm: null, learned: [], last: null };
+const blobs = new Map(), urls = new Map(), abufs = new Map();
+let bed = { name: null, src: null, gain: null };
 // public sources for every real fact shown in the film
 const SRC = {
-  donki: ['Storm timings and sizes: NASA DONKI (Space Weather Database Of Notifications, Knowledge, Information), Community Coordinated Modeling Center. Archived events, not live.', 'https://ccmc.gsfc.nasa.gov/tools/DONKI/'],
+  donki: ['Storm records (flare alerts, particle events, eruption clouds, geomagnetic storms): NASA DONKI (Space Weather Database Of Notifications, Knowledge, Information), Community Coordinated Modeling Center, pulled through api.nasa.gov. Archived events, not live.', 'https://ccmc.gsfc.nasa.gov/tools/DONKI/'],
   radlab: ['Radiation dose inside the Space Station and in lunar orbit, September 2017: NASA Open Science Data Repository, RadLab (ISS-RAD and LRO CRaTER detectors). Archived.', 'https://visualization.osdr.nasa.gov/radlab/gui/data-api/'],
   veggie: ['Tomatoes grown on the Space Station for 101 days: NASA Open Science Data Repository, study OSD-766 (VEG-05).', 'https://osdr.nasa.gov/bio/repo/data/studies/OSD-766'],
   csa: ['Crop growing times (lettuce 21 to 28 days) and astronaut food: Canadian Space Agency, "Food production on the Moon" toolkit.', 'https://www.asc-csa.gc.ca/eng/youth-educators/toolkits/food-production/'],
@@ -24,184 +28,280 @@ const SRC = {
   ax2: ['Saudi astronauts Rayyanah Barnawi and Ali AlQarni flew to the International Space Station in May 2023.', 'https://axiomspace.com/news/ax2-successful-launch'],
 };
 const fill = s => s.replace(/\{(\w+)\}/g, (_, k) => S.vars[k] ?? '');
-const wait = ms => new Promise(r => setTimeout(r, ms));
+const uniq = a => [...new Set(a)], host = u => u.replace(/^https?:\/\//, '').split('/')[0];
 const link = k => (SRC[k] && SRC[k][1] ? ` <a href="${SRC[k][1]}" target="_blank" rel="noopener">Source</a>` : '');
-const store = { get() { try { return JSON.parse(localStorage.getItem('jamt1') || '{}'); } catch { return {}; } }, set(v) { try { localStorage.setItem('jamt1', JSON.stringify(v)); } catch { /* private window: fine */ } } };
+const store = { get() { try { return JSON.parse(localStorage.getItem('jamt2') || '{}'); } catch { return {}; } }, set(v) { try { localStorage.setItem('jamt2', JSON.stringify(v)); } catch { /* private window: fine */ } } };
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const day = iso => `${+iso.slice(8, 10)} ${MONTHS[+iso.slice(5, 7) - 1]} ${iso.slice(0, 4)}`, clock = iso => iso.slice(11, 16) + ' UTC';
+const span = m => (m < 60 ? `${m} minutes` : `${Math.floor(m / 60)} hour${m >= 120 ? 's' : ''}${m % 60 ? ` ${m % 60} minutes` : ''}`);
+const craft = s => (/GOES/.test(s) ? 'a GOES weather satellite' : /SOHO/.test(s) ? 'the SOHO Sun-watching spacecraft' : /STEREO/.test(s) ? 'the STEREO A spacecraft' : 'a spacecraft');
+const num = n => n.toLocaleString('en-US');
 
-// ---------- media
-function prefetch(names) { for (const n of names) if (n && CLIPS[n] && !blobs.has(n)) blobs.set(n, fetch(`v/${n}.mp4`).then(r => (r.ok ? r.blob() : Promise.reject())).then(b => URL.createObjectURL(b)).catch(() => `v/${n}.mp4`)); }
-async function playClip(name, { loop = false } = {}) {
-  prefetch([name]); const url = await blobs.get(name), v = vids[1 - cur], old = vids[cur];
-  v.loop = loop; v.muted = loop; v.src = url;
+// ---------- media: hard cuts between two video elements
+function prefetch(names) { for (const n of names) if (n && CLIPS[n] && !blobs.has(n)) blobs.set(n, fetch(`v/${n}.mp4`).then(r => (r.ok ? r.blob() : Promise.reject())).then(b => { const u = URL.createObjectURL(b); urls.set(n, u); return u; }).catch(() => `v/${n}.mp4`)); }
+function arm(v, name, loop) {                      // put a clip on a video element and hold it on its first frame
+  if (v._name === name && v._arm) return v._arm;
+  v._name = name; prefetch([name]);
+  return (v._arm = (async () => {
+    const url = await blobs.get(name); if (v._name !== name) return;
+    v.pause(); v.loop = loop; v.muted = loop;
+    await new Promise(res => { const ok = () => { v.removeEventListener('loadeddata', ok); v.removeEventListener('error', ok); clearTimeout(to); res(); }; v.addEventListener('loadeddata', ok); v.addEventListener('error', ok); const to = setTimeout(ok, 6000); v.src = url; v.load(); });
+  })());
+}
+async function cut(name, { loop = false, my } = {}) {
+  const v = vids[1 - cur], old = vids[cur];
+  await arm(v, name, loop); if (v._name !== name || (my !== undefined && my !== nav)) return null;
+  try { if (v.currentTime > 0.04) v.currentTime = 0; } catch { /* not seekable yet: it is at the start anyway */ }
   try { await v.play(); } catch { v.muted = true; await v.play().catch(() => {}); }
-  v.classList.add('on'); old.classList.remove('on'); cur = 1 - cur; clipName = name;
-  setTimeout(() => { if (vids[cur] !== old) { old.pause(); } }, 340);
+  v.classList.add('on'); old.classList.remove('on'); old.pause(); old._name = null; old._arm = null; cur = 1 - cur; clipName = name; Q = loop ? [] : [...(CLIPS[name]?.ui || [])];
   return v;
 }
-const ended = v => new Promise(r => { const done = () => { v.removeEventListener('ended', done); clearTimeout(t); r(); }; v.addEventListener('ended', done); const t = setTimeout(done, ((CLIPS[clipName]?.duration || 10) + 2.5) * 1000); });
-function beep(f = 660, d = 0.09, g = 0.08, type = 'triangle') { if (!actx) return; const o = actx.createOscillator(), a = actx.createGain(); o.type = type; o.frequency.value = f; a.gain.setValueAtTime(g, actx.currentTime); a.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + d); o.connect(a).connect(actx.destination); o.start(); o.stop(actx.currentTime + d + 0.02); }
-async function loopAudio(name) {       // the idle loop's music repeats seamlessly under the choice
-  stopLoopAudio(); if (!actx || !name) return; const my = nav;
-  try {
-    if (!abufs.has(name)) abufs.set(name, fetch(`a/${name}.wav`).then(r => r.arrayBuffer()).then(b => actx.decodeAudioData(b)));
-    const buf = await abufs.get(name); if (my !== nav) return;
-    loopSrc = actx.createBufferSource(); loopSrc.buffer = buf; loopSrc.loop = true; loopGain = actx.createGain(); loopGain.gain.value = 0.0001;
-    loopSrc.connect(loopGain).connect(actx.destination); loopSrc.start(); loopGain.gain.exponentialRampToValueAtTime(0.7, actx.currentTime + 0.5);
-  } catch { /* no loop music: the film still plays */ }
-}
-function stopLoopAudio() { if (loopSrc) { const s = loopSrc, g = loopGain; try { g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + 0.3); s.stop(actx.currentTime + 0.35); } catch { /* already stopped */ } loopSrc = null; } }
+const preload = (name, loop = false) => { if (name && CLIPS[name]) arm(vids[1 - cur], name, loop); };
+const ended = (v, my, name) => new Promise(r => { const t0 = performance.now(), max = ((CLIPS[name]?.duration || 12) + 4) * 1000;
+  const done = () => { v.removeEventListener('ended', done); clearInterval(iv); r(); }; v.addEventListener('ended', done);
+  const iv = setInterval(() => { if (my !== nav || v.ended || (performance.now() - t0) * (v.playbackRate || 1) > max) done(); }, 200); });
 
-// ---------- the five doors and the three meters
-const specs = () => Object.entries(STORY.specialists);
-function renderDoors() { $('#doors').innerHTML = specs().map(([id, s]) => `<div class="door" data-id="${id}" title="${s.name}">${s.icon}</div>`).join(''); }
-function syncDoors(pop = []) {
-  for (const d of document.querySelectorAll('.door')) { const id = d.dataset.id; d.classList.toggle('open', S.open.has(id)); d.classList.toggle('me', S.vars.specialist === id);
-    if (pop.includes(id)) { d.classList.remove('pop'); void d.offsetWidth; d.classList.add('pop'); } }
+// ---------- sound: interface ticks, and one music bed per chapter that keeps playing across the cuts
+function beep(f = 660, d = 0.09, g = 0.06, type = 'triangle') { if (!actx) return; try { const o = actx.createOscillator(), a = actx.createGain(); o.type = type; o.frequency.value = f; a.gain.setValueAtTime(g, actx.currentTime); a.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + d); o.connect(a).connect(actx.destination); o.start(); o.stop(actx.currentTime + d + 0.02); } catch { /* no sound: fine */ } }
+async function setBed(name, level = 0.3) {
+  if (!actx || !$('#musicOn').checked) name = null;
+  if (bed.name !== name) {
+    if (bed.src) { const { src, gain } = bed; try { gain.gain.setTargetAtTime(0.0001, actx.currentTime, 0.3); } catch { /* closed */ } setTimeout(() => { try { src.stop(); } catch { /* already stopped */ } }, 1500); }
+    bed = { name, src: null, gain: null }; if (!name) return;
+    try {
+      if (!abufs.has(name)) abufs.set(name, fetch(`a/${name}.wav`).then(r => r.arrayBuffer()).then(b => actx.decodeAudioData(b)));
+      const buf = await abufs.get(name); if (bed.name !== name || bed.src) return;
+      const src = actx.createBufferSource(), gain = actx.createGain(); src.buffer = buf; src.loop = true; gain.gain.value = 0.0001; src.connect(gain).connect(actx.destination); src.start(); bed.src = src; bed.gain = gain;
+    } catch { return; }                                                   // no music: the film still plays
+  }
+  if (bed.gain) bed.gain.gain.setTargetAtTime(level, actx.currentTime, 0.4);
 }
-function renderMeters(shown) {
-  const M = STORY.meters, el = $('#meters'); if (!S.meters) { el.hidden = true; return; } el.hidden = false;
-  const was = shown || [...document.querySelectorAll('.meter.show')].map(m => m.dataset.k);
-  el.innerHTML = Object.keys(M.start).map(k => `<div class="meter ${was.includes(k) ? 'show' : ''} ${S.meters[k] <= 1 ? 'low' : ''}" data-k="${k}"><span class="mi">${M.icons[k]}</span><span class="ml">${M.labels[k]}</span><span class="pips">${[0, 1, 2, 3, 4].map(i => `<i class="${i < S.meters[k] ? 'on' : ''}"></i>`).join('')}</span></div>`).join('');
-}
-const fxText = fx => Object.entries(fx || {}).map(([k, v]) => `${STORY.meters.labels[k]} ${v > 0 ? '▲' : '▼'}${Math.abs(v) > 1 ? Math.abs(v) : ''}`).join(' · ');
-function applyEffects(fx) {
-  const M = STORY.meters;
-  for (const [k, v] of Object.entries(fx || {})) S.meters[k] = Math.max(M.scale[0], Math.min(M.scale[1], S.meters[k] + v));
-  renderMeters();
-  for (const [k, v] of Object.entries(fx || {})) { const m = document.querySelector(`.meter[data-k="${k}"]`); if (m) { m.classList.add('show', v > 0 ? 'up' : 'down'); setTimeout(() => m.classList.remove('up', 'down'), 1500); } }
-}
-function toast(text, ms = 2200) { const t = $('#toast'); t.textContent = text; t.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('on'), ms); }
-const opener = id => { for (const n of Object.values(STORY.nodes)) for (const o of n.choice?.options || []) if (o.opens?.includes(id)) return `${o.icon} ${o.label}`; return ''; };
+const bedFor = n => (!n || n.quiet ? null : n.chapter === 1 ? 'bed_c1' : 'bed_m');
 
-// ---------- choices
-function hidePanel() { $('#panel').hidden = true; $('#timer').classList.remove('run'); clearTimeout(timerId); }
+// ---------- HUD: objective, meters, labels, consequences, hints
+function objective() {
+  const el = $('#objective'), ch = node && STORY.chapters[node.chapter]; if (!ch || node.id === 'open' || node.screen) { el.hidden = true; return; }
+  el.hidden = false; el.querySelector('.ch').textContent = ch.name; el.querySelector('.title').textContent = ch.title; el.querySelector('.goal').innerHTML = ch.goal;
+  const st = node.step ?? -1; el.querySelector('.steps').innerHTML = ch.steps.map((s, i) => `<i class="${i < st ? 'done' : i === st ? 'now' : ''}">${s}</i>`).join('');
+}
+function renderMeters() {
+  const M = STORY.meters, el = $('#meters'); stage.classList.toggle('has-meters', !!S.meters); if (!S.meters) { el.hidden = true; el.innerHTML = ''; return; } el.hidden = false;
+  if (!el.children.length) el.innerHTML = Object.keys(M.start).map(k => `<div class="meter" data-k="${k}"><span class="chev"></span><span class="mi">${M.icons[k]}</span><span class="ml">${M.labels[k]}</span><span class="bar">${'<i></i>'.repeat(M.scale[1])}</span><span class="mv"></span></div>`).join('');
+  for (const k of Object.keys(M.start)) { const m = el.querySelector(`[data-k="${k}"]`); m.classList.toggle('low', S.meters[k] <= 1); m.querySelectorAll('.bar i').forEach((b, i) => b.classList.toggle('on', i < S.meters[k])); m.querySelector('.mv').textContent = S.meters[k]; }
+}
+function pop({ x = 0.5, y = 0.45, cls, html, dur = 2.4 }) {             // something drawn at a point of the picture, for a moment (below the point when there is no room above)
+  const el = document.createElement('div'); el.className = cls + (y < (cls.startsWith('fx') ? 0.24 : 0.14) ? ' below' : ''); el.style.left = Math.min(84, Math.max(16, x * 100)) + '%'; el.style.top = Math.min(90, Math.max(8, y * 100)) + '%'; el.innerHTML = html;
+  $('#tags').appendChild(el); requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('on'))); setTimeout(() => { el.classList.remove('on'); setTimeout(() => el.remove(), 320); }, dur * 1000);
+}
+function dock() {                                                        // the shot changed: names come off the picture, consequences move to the side column
+  for (const t of $$('#tags .tag')) t.parentNode.removeChild(t);
+  const col = $('#dock'); for (const f of $$('#tags .fx')) { f.classList.remove('below'); f.style.left = f.style.top = ''; col.appendChild(f); }
+}
+function change(k, d, why, x, y) {                                       // a meter moves: shown where it happened, with the reason
+  if (!S.meters || !d) return; const M = STORY.meters; S.meters[k] = Math.max(M.scale[0], Math.min(M.scale[1], S.meters[k] + d)); renderMeters();
+  const m = $(`.meter[data-k="${k}"]`); if (m) { m.classList.remove('up', 'down'); void m.offsetWidth; m.classList.add('show', d > 0 ? 'up' : 'down'); m.querySelector('.chev').textContent = d > 0 ? '▲' : '▼'; clearTimeout(m._t); m._t = setTimeout(() => m.classList.remove('up', 'down'), 2800); }
+  beep(d > 0 ? 880 : 240, 0.16, 0.06, d > 0 ? 'triangle' : 'sawtooth'); if (d > 0) setTimeout(() => beep(1320, 0.12, 0.05), 90);
+  pop({ x, y, cls: 'fx ' + (d > 0 ? 'up' : 'dn'), dur: 3.1, html: `<div class="top"><span class="chev">${d > 0 ? '▲' : '▼'}</span><span class="num">${Math.abs(d)}</span><span class="lab">${M.icons[k]} ${M.labels[k]}</span></div>${why ? `<p>${why}</p>` : ''}` });
+}
+function flush() { for (const [k, d] of Object.entries(S.pending)) change(k, d, ''); S.pending = {}; }   // whatever a result clip did not show still counts
+const fxHtml = fx => Object.entries(fx || {}).map(([k, v]) => `<i class="${v > 0 ? 'up' : 'dn'}">${(v > 0 ? '▲' : '▼').repeat(Math.abs(v))} ${STORY.meters.labels[k]}</i>`).join('');
+const fxText = fx => Object.entries(fx || {}).map(([k, v]) => `${STORY.meters.labels[k]} ${v > 0 ? '▲' : '▼'}${Math.abs(v)}`).join(', ');   // arrows, never a plus sign (no cross shapes in the interface)
+
+// a hint card: a tutorial line, a thing to learn, or a real record from NASA's data
+function buildTip(id) {
+  const s = S.storm, o = S.last, sp = STORY.specialists[S.vars.specialist];
+  if (id === 'learn') id = o ? 'learn_' + o.id : '';
+  if (id === 'door' && o?.opens) return { kind: 'door', small: o.opens.length > 1 ? 'Doors opened' : 'Door opened', text: o.opens.map(d => `<b>${STORY.specialists[d].icon} ${STORY.specialists[d].name}</b>`).join(' and ') + (o.opens.length > 1 ? '. You can pick either one at the academy.' : '. You can pick it at the academy.') };
+  if (id === 'specialist' && sp) return { kind: 'door', small: 'You are the', text: `<b>${sp.icon} ${sp.name}</b>. ${sp.does} You get one <b>special move</b> in the storm.` };
+  if (id === 'storm_flare' && s) return { kind: 'data', id: 'storm_' + s.key, title: `The storm of ${day(s.date)}`, small: 'Real storm · NASA DONKI', learn: true,
+    text: `<b>${day(s.date)}</b>: a real <b>${s.flare.class} solar flare</b> began at ${clock(s.flare.start)}. Its particles arrived <b>${span(s.warningMin)}</b> later. That is your warning time.` };
+  if (id === 'storm_particles' && s) return { kind: 'data', small: 'Real record · NASA DONKI', text: `Particles were first measured at <b>${clock(s.particles.time)}</b> by ${craft(s.particles.instrument)}: <b>${span(s.warningMin)}</b> after the flare.` };
+  if (id === 'storm_cloud' && s?.cloud) return { kind: 'data', small: 'Real record · NASA DONKI', text: `The eruption's cloud left the Sun at <b>${s.cloud.speedMin === s.cloud.speedMax ? num(s.cloud.speedMax) : num(s.cloud.speedMin) + ' to ' + num(s.cloud.speedMax)} km per second</b>.` + (s.storm ? ` It reached Earth <b>${Math.round(s.storm.hoursAfterFlare)} hours</b> after the flare. Storm strength: <b>Kp ${s.storm.kpMax}</b> out of 9.` : '') };
+  if (id === 'ending' && S.meters) { const M = STORY.meters, min = Math.min(...Object.values(S.meters)), low = Object.keys(S.meters).filter(k => S.meters[k] === min).map(k => `${M.icons[k]} ${M.labels[k]}`).join(' and ');
+    return { kind: 'tutorial', small: 'Mission result', text: min >= 2 ? 'Nothing ran low: <b>all three</b> ended at 2 or more.' : min <= 0 ? `<b>${low}</b> hit zero. The crew flies home early.` : `<b>${low}</b> ended at ${min}. One thing ran low.` }; }
+  const t = STORY.tips[id]; if (!t) return null;
+  return { ...t, id, small: t.kind === 'tutorial' ? 'Tutorial' : 'Did you know · ' + t.title, learn: t.kind === 'learn' };
+}
+function showTip(id, { hold = false } = {}) {
+  const t = buildTip(id); if (!t) return;
+  tipHtml = `<div class="tip ${t.kind}"><small>${t.small}</small><p>${t.text}</p>${t.source && SRC[t.source]?.[1] ? `<span class="src">Source: ${host(SRC[t.source][1])}</span>` : ''}</div>`;
+  const box = $('#notice'); box.innerHTML = tipHtml; const el = box.firstChild; requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('on'))); syncInfo(); beep(520, 0.05, 0.025);
+  clearTimeout(showTip.t); if (!hold) showTip.t = setTimeout(() => el.classList.remove('on'), Math.max(4500, t.text.replace(/<[^>]+>/g, '').split(/\s+/).length * 430));
+  if (t.learn && !S.learned.some(l => l.id === t.id)) S.learned.push({ id: t.id, title: t.title, text: t.text, source: t.source || (t.kind === 'data' ? 'donki' : '') });
+}
+function clearTip() { clearTimeout(showTip.t); const el = $('#notice').firstChild; if (el) el.classList.remove('on'); tipHtml = ''; syncInfo(); }
+// upright phones: the same hint, and what each choice means, under the picture
+function syncInfo() {
+  const opts = $$('.opt.in').map(b => b._o).filter(Boolean);
+  $('#info').innerHTML = tipHtml + (idle && node?.choice ? `<p class="ask">${node.choice.prompt}</p>` : '') + (opts.length && !$('#choices').classList.contains('done') ? `<ul class="legend">${opts.map((o, i) => `<li><b>${i + 1}. ${o.icon} ${o.label}</b>${o.about || ''}${o.effects ? ` <span>(${fxText(o.effects)})</span>` : ''}</li>`).join('')}</ul>` : '') + '<p class="turn">Turn your phone sideways for a bigger picture</p>';
+}
+
+// ---------- choices: built hidden; each one appears on the picture when the film names it
 function optionsFor(n) {
   const c = n.choice;
-  if (c.doors) return specs().map(([id, s]) => ({ id, icon: s.icon, label: s.name, locked: !S.open.has(id), hint: S.open.has(id) ? s.does : 'Locked. Opens with: ' + opener(id) }));
-  return c.options.filter(o => !o.only || o.only === S.vars.specialist).map(o => ({ ...o, hint: o.effects ? fxText(o.effects) + (o.later ? ' · later ' + fxText(o.later) : '') : o.hint, special: !!o.only }));
+  if (c.doors) { const ids = Object.keys(STORY.specialists).filter(id => S.open.has(id)), xs = c.doorX[ids.length] || ids.map((_, i) => (i + 1) * 100 / (ids.length + 1));   // only the doors you opened exist
+    return ids.map((id, i) => ({ id, icon: STORY.specialists[id].icon, label: STORY.specialists[id].name, about: STORY.specialists[id].does, pos: [xs[i], c.doorY] })); }
+  return c.options.filter(o => !o.only || o.only === S.vars.specialist).map(o => ({ ...o, special: !!o.only }));   // a move that belongs to another job is simply not there
 }
-function showChoices(n) {
-  const c = n.choice, box = $('#options'); box.innerHTML = ''; box.classList.toggle('five', !!c.doors); $('#prompt').textContent = c.prompt; $('#fact').hidden = true; $('#timer').hidden = true;
-  optionsFor(n).forEach(o => {
-    const b = document.createElement('button'); b.className = 'opt' + (o.locked ? ' locked' : '') + (o.special ? ' special' : '');
-    b.innerHTML = `<span class="ic">${o.icon}</span><span>${o.label}${o.special ? ' <em>only you</em>' : ''}${o.hint ? `<small>${o.hint}</small>` : ''}</span>`;
-    b.onclick = () => { if (o.locked) { b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); beep(180, 0.12, 0.07, 'square'); toast('That door is locked. It opens with: ' + opener(o.id)); return; } choose(n, o, b); };
-    box.appendChild(b);
+function buildChoices(n) {
+  const box = $('#choices'), list = optionsFor(n), c = n.choice; box.className = '';
+  let set = null; if (c.list) { set = document.createElement('div'); set.className = 'set'; set.style.right = (100 - c.list[0]) + '%'; set.style.top = c.list[1] + '%'; box.appendChild(set); }
+  list.forEach((o, i) => {
+    const b = document.createElement('button'); b.className = 'opt' + (o.special ? ' special' : '') + (o.pos ? ' free' : ''); b.dataset.id = o.id; b.tabIndex = -1; b._o = o;
+    if (o.pos) { b.style.left = o.pos[0] + '%'; b.style.top = o.pos[1] + '%'; }
+    b.innerHTML = `<span class="key"><i>${i + 1}</i></span><span class="ic">${o.icon}</span><span class="tx">${o.special ? '<span class="only">Only you can do this</span>' : ''}<b>${o.label}</b>${o.about ? `<small>${o.about}</small>` : ''}${o.effects ? `<span class="fxs">${fxHtml(o.effects)}${o.later ? `<i class="dn">LATER ${Object.keys(o.later).map(k => '▼ ' + STORY.meters.labels[k]).join(' ')}</i>` : ''}</span>` : ''}</span>`;
+    b.onclick = () => choose(n, o, b); (set || box).appendChild(b);
   });
-  $('#panel').hidden = false;
+  return list;
 }
-function showFact(n) {
-  const f = n.fact, el = $('#fact'); if (!f) return;
-  if (f.storm) { const st = STORY.storms[S.vars.storm]; el.innerHTML = `Real storm, from NASA's archive: ${st.flare} solar flare, ${st.date}. Particles followed in ${st.warning}.${link('donki')}`; }
-  else el.innerHTML = f.text + link(f.source);
-  el.hidden = false;
+function reveal(id) { const b = $(`.opt[data-id="${id}"]`); if (!b || b.classList.contains('in') || $('#choices').classList.contains('done')) return; b.classList.add('in'); b.tabIndex = 0; beep(700 + 110 * $$('.opt.in').length, 0.07, 0.04); syncInfo(); }
+function revealAll() { $$('.opt:not(.in)').forEach((b, i) => setTimeout(() => reveal(b.dataset.id), i * 160)); }
+function clearChoices(delay = 0) {                                       // fades out the rows that are up now (never the next choice's)
+  const kids = [...$('#choices').children]; if (!kids.length) return;
+  setTimeout(() => { kids.forEach(k => k.classList.add('bye')); setTimeout(() => { kids.forEach(k => k.remove()); syncInfo(); }, 320); }, delay);
 }
+function stopTimer() { clearTimeout(timerId); clearTimeout(lateId); $('#timer').classList.remove('run', 'late'); }
 function startTimer(n) {
-  const c = n.choice; showFact(n);
-  if (!c.timer || $('#noTimers').checked) return;
-  const t = $('#timer'), list = optionsFor(n); t.hidden = false; t.style.setProperty('--secs', c.timer + 's'); t.classList.remove('run'); void t.offsetWidth; t.classList.add('run');
-  timerId = setTimeout(() => { const i = Math.min(c.default || 0, list.length - 1), o = list[i]; toast('Time is up: ' + o.label); choose(n, o, document.querySelectorAll('.opt')[i]); }, c.timer * 1000);
+  const c = n.choice, t = $('#timer'); stopTimer(); if (!c.timer || $('#noTimers').checked) return;
+  t.style.setProperty('--secs', c.timer + 's'); void t.offsetWidth; t.classList.add('run'); lateId = setTimeout(() => t.classList.add('late'), c.timer * 700);
+  timerId = setTimeout(() => { const list = optionsFor(n), o = list[Math.min(c.default || 0, list.length - 1)]; revealAll(); const b = $(`.opt[data-id="${o.id}"]`); b.classList.add('in'); choose(n, o, b); }, c.timer * 1000);
 }
-async function choose(n, o, btn) {
-  if (choose.busy) return; choose.busy = true; const my = ++nav; clearTimeout(timerId); $('#timer').classList.remove('run'); stopLoopAudio();
-  btn?.classList.add('picked'); beep(880, 0.08); S.vars[n.choice.key] = o.id;
-  if (o.opens) { const fresh = o.opens.filter(id => !S.open.has(id)); o.opens.forEach(id => S.open.add(id)); syncDoors(o.opens); setTimeout(() => beep(1320, 0.12), 110);
-    toast((fresh.length ? 'Door opened: ' : 'Already open: ') + o.opens.map(id => STORY.specialists[id].name).join(' and ')); }
-  else if (o.effects) { S.log.push({ key: n.choice.key, id: o.id, label: o.label, icon: o.icon, effects: o.effects, later: o.later }); applyEffects(o.effects); toast(fxText(o.effects), 2600); setTimeout(() => beep(520, 0.14), 110); }
-  else { syncDoors([o.id]); toast('You are the ' + STORY.specialists[o.id].name); }
-  await wait(o.effects ? 900 : 520); choose.busy = false; if (my === nav) go(n.next, o.effects ? `<b>${o.icon} ${o.label}.</b> ${o.why} <span class="fx">${fxText(o.effects)}</span>` : null);
+function choose(n, o, btn) {                                             // the pick lights up, the others go, and the film cuts straight to it
+  if (busy || node !== n || !btn || !btn.classList.contains('in')) return; busy = true; idle = false; stopTimer();
+  btn.classList.add('picked'); $('#choices').classList.add('done'); $('#prompt').hidden = true; beep(880, 0.08); setTimeout(() => beep(1320, 0.1), 80); clearTip();
+  S.vars[n.choice.key] = o.id; S.last = o;
+  if (o.opens) o.opens.forEach(id => S.open.add(id));
+  if (o.effects) { S.pending = { ...o.effects }; S.log.push({ key: n.choice.key, id: o.id, label: o.label, icon: o.icon, effects: o.effects, later: o.later, why: o.why }); }
+  go(n.next);
 }
 
 // ---------- the story
-async function go(id, note = null) {
-  const my = ++nav; node = STORY.nodes[id]; hidePanel(); stopLoopAudio();
-  if (!node) return;
-  node.id = id;
+function startMission() {                                                // three meters, and one real storm from NASA's records (one you have not faced yet, if there is one)
+  S.meters = { ...STORY.meters.start }; S.pending = {}; S.log = []; for (const k of ['m1', 'm2', 'm3', 'ending']) delete S.vars[k];
+  const q = new URLSearchParams(location.search).get('storm'), alias = { jan: 's202601181727', may: 's202405110110', short: 's202511110949' }, keys = DONKI.game, st = store.get(), fresh = keys.filter(k => !(st.storms || []).includes(k)), pool = fresh.length ? fresh : keys;
+  const pick = keys.includes(alias[q] || q) ? (alias[q] || q) : pool[Math.floor(Math.random() * pool.length)];
+  S.storm = DONKI.storms.find(s => s.key === pick); S.vars.stormClip = S.storm.clip; st.storms = uniq([...(st.storms || []), pick]); store.set(st);
+  $('#meters').innerHTML = ''; renderMeters();
+}
+function stormTax() {                                                    // the one rule that comes from the data: a short real warning costs shielding
+  const R = STORY.storm, s = S.storm; if (!s || s.warningMin > R.shortWarningMin) return; const my = nav;
+  setTimeout(() => { if (my !== nav) return;
+    if (S.vars.m1 === R.taxWaivedFor) pop({ x: 0.5, y: 0.5, cls: 'tag', html: `<span>${R.waivedWhy}</span>`, dur: 3 });
+    else { S.log.push({ key: 'storm', label: `Only ${span(s.warningMin)} of warning`, icon: '🌩️', effects: R.tax }); for (const [k, d] of Object.entries(R.tax)) change(k, d, `Only ${span(s.warningMin)} of warning: ${R.taxWhy.toLowerCase()}`, 0.5, 0.5); } }, 1600);
+}
+function settle() {                                                      // the night battery comes due, then the lowest meter decides
+  flush(); const late = S.log.find(l => l.later && !l.spent);
+  if (late) { late.spent = true; S.log.push({ key: 'night', label: 'The spent night battery', icon: '🔋', effects: late.later }); for (const [k, d] of Object.entries(late.later)) change(k, d, 'The night battery is empty now', 0.5, 0.5); }
+  const min = Math.min(...Object.values(S.meters)); S.vars.ending = min <= 0 ? 'evac' : min >= 2 ? 'thrive' : 'lesson';
+}
+async function go(id) {
+  const my = ++nav; node = STORY.nodes[id]; if (!node) return; node.id = id; idle = false; stopTimer(); $('#prompt').hidden = true;
   if (node.screen === 'chapter') return showChapter(id);
   if (node.screen === 'finale') return showFinale();
-  $('#doors').classList.toggle('show', id !== 'open' && node.chapter === 1);
-  if (node.meters) {                                                  // the mission begins: three meters, and one real storm drawn from the archive
-    S.meters = { ...STORY.meters.start }; S.log = []; const q = new URLSearchParams(location.search).get('storm');
-    S.vars.storm = q && STORY.storms[q] ? q : (Math.random() < 0.5 ? 'jan' : 'may'); for (const k of ['m1', 'm2', 'm3', 'ending']) delete S.vars[k]; renderMeters([]);
-  }
-  if (node.tax) { const st = STORY.storms[S.vars.storm]; if (st.tax) { if (S.vars.m1 === st.taxWaivedFor) setTimeout(() => toast(st.waivedNote, 3200), 1200); else setTimeout(() => { S.log.push({ key: 'storm', label: 'The storm (one hour of warning)', icon: '🌩️', effects: st.tax }); applyEffects(st.tax); toast(st.taxNote, 3800); }, 1200); } }
-  if (node.ending) {
-    const late = S.log.find(l => l.later); if (late) { S.log.push({ key: 'night', label: 'The spent night battery', icon: '🔋', effects: late.later }); applyEffects(late.later); toast('The night battery is spent: ' + fxText(late.later), 3200); }
-    const min = Math.min(...Object.values(S.meters)); S.vars.ending = min <= 0 ? 'evac' : min >= 2 ? 'thrive' : 'lesson';
-  }
-  if (note) { $('#panel').hidden = false; $('#prompt').textContent = ''; $('#options').innerHTML = ''; $('#timer').hidden = true; $('#fact').innerHTML = note; $('#fact').hidden = false; }   // why that choice moved the meters, shown under its clip
-  const name = fill(node.clip), meta = CLIPS[name] || {};
-  const nexts = [], nx = STORY.nodes[node.next];                       // load what can come next while this plays
-  if (node.loop) nexts.push(node.loop);
-  if (nx?.clip) { if (node.choice?.doors) [...S.open].forEach(s => nexts.push(nx.clip.replace('{specialist}', s))); else if (node.choice) optionsFor(node).forEach(o => nexts.push(nx.clip.replace(`{${node.choice.key}}`, o.id))); else if (!nx.ending) nexts.push(fill(nx.clip)); }
-  prefetch(nexts.filter(n => !n.includes('{')));
-  const v = await playClip(name); if (my !== nav) return;
-  let shown = false; const ui = [...(meta.ui || [])];
-  const tick = () => {
-    while (ui.length && v.currentTime >= ui[0].t) { const u = ui.shift(); if (u.ui === 'meter' && S.meters) { const m = document.querySelector(`.meter[data-k="${u.id}"]`); if (m) { m.classList.add('show'); beep(700 + 180 * ['power', 'air', 'shield'].indexOf(u.id), 0.1); } } }
-    if (node.choice && !shown && meta.choicesAt != null && v.currentTime >= meta.choicesAt) { shown = true; showChoices(node); }
-  };
-  v.addEventListener('timeupdate', tick); await ended(v); v.removeEventListener('timeupdate', tick); if (my !== nav) return;
-  if (S.meters) document.querySelectorAll('.meter').forEach(m => m.classList.add('show'));
-  if (node.choice) { if (!shown) showChoices(node); await playClip(node.loop, { loop: true }); if (my !== nav) return; loopAudio(node.loop); startTimer(node); }
-  else go(node.next);
+  if (node.meters) startMission();
+  if (node.ending) settle();
+  const name = fill(node.clip), nx = STORY.nodes[node.next];
+  const v = await cut(name, { my }); if (my !== nav || !v) return;
+  dock(); busy = false; clearChoices($('#choices').classList.contains('done') ? 520 : 0);   // the pick stays lit for a moment over the clip it led to
+  objective(); setBed(bedFor(node), 0.3); if (S.meters && !node.meters) $$('.meter').forEach(m => m.classList.add('show'));
+  const list = node.choice ? buildChoices(node) : null;
+  if (node.tax) stormTax();
+  // while this plays: fetch whatever can follow, and put the sure thing on the other video element, on its first frame
+  if (list && nx?.clip) prefetch(list.map(o => nx.clip.replace(`{${node.choice.key}}`, o.id).replace(/\{(\w+)\}/g, (_, k) => S.vars[k] ?? '')));
+  const after = nx?.clip ? fill(nx.clip) : null; if (list) preload(fill(node.loop), true); else preload(after);
+  await ended(v, my, name); if (my !== nav) return;
+  while (Q.length) fire(Q.shift());                                      // a cue on the clip's last frames still counts
+  if (node.result) flush();
+  if (list) {
+    revealAll(); const lv = await cut(fill(node.loop), { loop: true, my }); if (my !== nav || !lv) return;
+    idle = true; setBed(bedFor(node), 0.6); $('#prompt span').textContent = node.choice.prompt; $('#prompt').hidden = false; startTimer(node); if (node.idleTip) showTip(node.idleTip, { hold: true }); syncInfo();
+  } else go(node.next);
 }
-function showChapter(id) {
-  const sp = STORY.specialists[S.vars.specialist], opt = (k, key) => STORY.nodes[k].choice.options.find(o => o.id === S.vars[key]);
-  const a = opt('tv', 'c1'), b = opt('fair', 'c2'), seen = store.get(); seen.specs = [...new Set([...(seen.specs || []), S.vars.specialist])]; seen.kids = [...new Set([...(seen.kids || []), S.vars.c1 + '+' + S.vars.c2])]; store.set(seen);
-  $('#chTitle').textContent = `You are the ${sp.name}.`;
-  $('#chPath').innerHTML = `<span class="chip">${a.icon} ${a.label}</span><span>then</span><span class="chip">${b.icon} ${b.label}</span><span>opened</span><span class="chip me">${sp.icon} ${sp.name}</span>`;
-  $('#chHint').textContent = `Found on this device: ${seen.specs.length} of 5 specialists, ${seen.kids.length} of 9 childhoods. Locked doors open with a different childhood.`;
-  $('#chDoors').innerHTML = specs().map(([sid, s]) => `<div class="tile ${S.open.has(sid) ? 'open' : ''} ${sid === S.vars.specialist ? 'me' : ''}"><b>${s.icon}</b>${s.name}${S.open.has(sid) ? '' : '<br>🔒 ' + opener(sid)}</div>`).join('');
-  const more = !!CLIPS[STORY.nodes[STORY.nodes[id].next]?.clip]; $('#contBtn').disabled = !more; $('#contBtn').textContent = more ? 'Continue to the Moon' : 'The Moon mission is coming next';
-  $('#contBtn').onclick = () => { $('#chapter').hidden = true; go(STORY.nodes[id].next); };
-  $('#againBtn').onclick = () => { $('#chapter').hidden = true; restart(); };
-  vids.forEach(v => v.pause()); $('#chapter').style.setProperty('--poster', `url(p/${fill('reveal_{specialist}')}.jpg)`); $('#chapter').hidden = false;
+function fire(c) {                                                       // a cue from the clip, on its frame
+  if (c.ui === 'opt') { reveal(c.id); if (!Q.some(q => q.ui === 'opt')) setTimeout(() => { if (node?.choice) revealAll(); }, 600); }
+  else if (c.ui === 'meter') { const m = $(`.meter[data-k="${c.id}"]`); if (m) { m.classList.add('show'); beep(700 + 180 * ['power', 'air', 'shield'].indexOf(c.id), 0.1); } }
+  else if (c.ui === 'tip') showTip(c.id);
+  else if (c.ui === 'cut') dock();
+  else if (c.ui === 'tag') pop({ x: c.x, y: c.y, cls: 'tag', html: `<span>${c.text}</span>`, dur: c.dur || 2.2 });
+  else if (c.ui === 'fx' && S.meters && node?.result) { change(c.k, c.d, c.text, c.x, c.y); S.pending[c.k] = (S.pending[c.k] || 0) - c.d; if (!S.pending[c.k]) delete S.pending[c.k]; }
 }
-function restart() { S.vars = {}; S.open.clear(); S.meters = null; S.log = []; renderMeters(); syncDoors(); $('#doors').classList.remove('show'); go('tv'); }
-function showFinale() {
-  const E = STORY.endings[S.vars.ending], M = STORY.meters, sp = STORY.specialists[S.vars.specialist], st = STORY.storms[S.vars.storm], rp = STORY.realPath;
-  const min = Math.min(...Object.values(S.meters)), lows = Object.keys(S.meters).filter(k => S.meters[k] === min);
-  const cause = lows.map(k => { const hits = S.log.filter(l => (l.effects[k] || 0) < 0).map(l => `${l.icon} ${l.label}`); return `<b>${M.icons[k]} ${M.labels[k]}</b> ended at ${S.meters[k]} of 5${hits.length ? ': spent by ' + hits.join(' and ') : ''}.`; }).join(' ');
-  const seen = store.get(); seen.ends = [...new Set([...(seen.ends || []), S.vars.ending])]; store.set(seen);
-  $('#fnEyebrow').textContent = { thrive: 'Ending: the outpost thrives', lesson: 'Ending: safe, with a lesson', evac: 'Ending: home early, safe' }[S.vars.ending];
-  $('#fnTitle').textContent = E.title; $('#fnLine').textContent = E.line;
-  $('#fnMeters').innerHTML = Object.keys(S.meters).map(k => `<span class="chip ${S.meters[k] === min && min < 2 ? 'bad' : ''}">${M.icons[k]} ${M.labels[k]} ${S.meters[k]}/5</span>`).join('');
-  $('#fnCause').innerHTML = (min >= 2 ? 'You kept all three in balance. ' : STORY.endings.rule + ' ') + cause;
-  $('#fnFlow').innerHTML = ['flare', 'particles', 'peak'].map((k, i) => { const c = STORY.nodes[k].choice; return `<div class="frow"><span class="fq">Decision ${i + 1}</span>${c.options.map(o => { const mine = S.vars[c.key] === o.id, locked = o.only && o.only !== S.vars.specialist; return `<span class="fchip ${mine ? 'me' : ''} ${locked ? 'lock' : ''}">${locked ? '🔒 ' + STORY.specialists[o.only].icon : o.icon} ${o.label}<small>${locked ? 'only the ' + STORY.specialists[o.only].name : fxText(o.effects)}</small></span>`; }).join('')}</div>`; }).join('');
-  $('#fnStorm').innerHTML = `<b>The storm was real.</b> ${st.facts} <span class="ids">NASA DONKI event IDs: ${st.ids.join(', ')}. Archived data, not live.</span> <a href="${st.link}" target="_blank" rel="noopener">See the NASA record</a>`;
-  $('#fnPath').innerHTML = `<b>${sp.icon} Your real path to ${sp.name.toLowerCase()}</b><ul>${rp.common.map(([w, t, s]) => `<li><em>${w}:</em> ${t}${link(s)}</li>`).join('')}<li><em>Study:</em> ${rp[S.vars.specialist].study}.</li><li><em>Real today:</em> ${rp[S.vars.specialist].real}${link(rp[S.vars.specialist].source)}</li></ul>`;
-  $('#fnHint').textContent = `Endings found on this device: ${seen.ends.length} of 3. Each specialist has a different special move, and the storm is drawn again each time.`;
-  $('#stormAgain').onclick = () => { $('#finale').hidden = true; go('mission'); };
-  $('#newLife').onclick = () => { $('#finale').hidden = true; restart(); };
-  hidePanel(); vids.forEach(v => v.pause()); $('#finale').style.setProperty('--poster', `url(p/end_${S.vars.ending}.jpg)`); $('#finale').hidden = false; $('#finale').scrollTop = 0;
+function frame() {                                                       // every display frame: fire the clip's cues, show its captions
+  const v = vids[cur], t = v.currentTime;
+  if (!v.loop && !v.paused) while (Q.length && t >= Q[0].t) fire(Q.shift());
+  const caps = CLIPS?.[clipName]?.captions, el = $('#caption'); let hit = null;
+  if (caps && $('#capsOn').checked && !v.loop) for (const c of caps) if (t >= c.t0 && t < c.t1) { hit = c; break; }
+  if (hit) { if (el.textContent !== hit.text) el.textContent = hit.text; el.className = 'on ' + hit.who; } else if (el.className) el.className = '';
+  requestAnimationFrame(frame);
 }
 
-// ---------- captions
-function captions() {
-  const v = vids[cur], caps = CLIPS?.[clipName]?.captions, el = $('#caption'); let hit = null;
-  if (caps && $('#capsOn').checked && !v.loop) for (const c of caps) if (v.currentTime >= c.t0 && v.currentTime < c.t1) { hit = c; break; }
-  if (hit) { if (el.textContent !== hit.text) el.textContent = hit.text; el.className = 'on ' + hit.who; } else el.className = '';
-  requestAnimationFrame(captions);
+// ---------- the card after chapter 1, and the mission report
+function showChapter(id) {
+  const sp = STORY.specialists[S.vars.specialist], opt = (k, key) => STORY.nodes[k].choice.options.find(o => o.id === S.vars[key]), a = opt('tv', 'c1'), b = opt('fair', 'c2');
+  const seen = store.get(); seen.specs = uniq([...(seen.specs || []), S.vars.specialist]); seen.kids = uniq([...(seen.kids || []), S.vars.c1 + '+' + S.vars.c2]); store.set(seen);
+  $('#chTitle').innerHTML = `You are the <b>${sp.name}</b> ${sp.icon}`; $('#chDoes').textContent = sp.does + ' In the storm you get one special move that nobody else has.';
+  $('#chFlow').innerHTML = [['Launch night', a], ['Space competition', b], ['The academy', { icon: sp.icon, label: sp.name }]].map(([s, o], i) => `${i ? '<span class="fline"></span>' : ''}<div class="fnode ${i === 2 ? 'me' : ''}"><small>${s}</small><b>${o.icon} ${o.label}</b></div>`).join('');
+  $('#chNext').innerHTML = `A storm from the Sun is heading for the Moon base. ${STORY.chapters[2].goal}`;
+  $('#chHint').textContent = `Found on this device: ${seen.specs.length} of 5 space jobs, ${seen.kids.length} of 9 childhoods. A different childhood opens different doors.`;
+  $('#contBtn').onclick = () => { $('#chapter').hidden = true; go(STORY.nodes[id].next); };
+  $('#againBtn').onclick = () => { $('#chapter').hidden = true; restart(); };
+  $('#objective').hidden = true; clearTip(); clearChoices(); setBed('bed_c1', 0.45); $('#chapter').hidden = false;
+}
+function restart() { S.vars = {}; S.open.clear(); S.meters = null; S.pending = {}; S.log = []; S.storm = null; S.learned = []; S.last = null; busy = false; renderMeters(); clearTip(); $('#tags').innerHTML = ''; $('#dock').innerHTML = ''; go('tv'); }
+function showFinale() {
+  const E = STORY.endings[S.vars.ending], M = STORY.meters, sp = STORY.specialists[S.vars.specialist], s = S.storm, rp = STORY.realPath, keys = Object.keys(S.meters);
+  const min = Math.min(...Object.values(S.meters)), lows = keys.filter(k => S.meters[k] === min);
+  const cause = lows.map(k => { const hits = S.log.filter(l => (l.effects[k] || 0) < 0).map(l => `${l.icon} ${l.label}`); return `<b>${M.icons[k]} ${M.labels[k]}</b> ended at ${S.meters[k]} of 5${hits.length ? ': spent by ' + hits.join(' and ') : ''}.`; }).join(' ');
+  const seen = store.get(); seen.ends = uniq([...(seen.ends || []), S.vars.ending]); seen.learned = uniq([...(seen.learned || []), ...S.learned.map(l => l.id)]); store.set(seen);
+  $('#fnEyebrow').textContent = 'Mission report · ' + E.name; $('#fnTitle').textContent = E.title; $('#fnLine').textContent = E.line;
+  $('#fnMeters').innerHTML = keys.map(k => `<div class="stat ${S.meters[k] <= 1 ? 'bad' : 'good'}">${M.icons[k]} ${M.labels[k]} <b>${S.meters[k]}</b></div>`).join('');
+  $('#fnCause').innerHTML = (min >= 2 ? 'You kept all three in balance. ' : STORY.endings.rule + ' ') + cause;
+  // the decisions, with only the options this player was offered
+  const extra = S.log.filter(l => l.key === 'storm' || l.key === 'night').map(l => `<div class="frow"><span class="fq">${l.key === 'storm' ? 'The storm' : 'Later'}</span><div class="fnode me"><small>It happened</small><b>${l.icon} ${l.label}</b><em>${fxHtml(l.effects)}</em></div></div>`).join('');
+  $('#fnFlow').innerHTML = ['flare', 'particles', 'peak'].map((k, i) => { const c = STORY.nodes[k].choice, list = c.options.filter(o => !o.only || o.only === S.vars.specialist);
+    return `<div class="frow"><span class="fq">${STORY.chapters[2].steps[i]}</span>${list.map(o => { const me = S.vars[c.key] === o.id; return `<div class="fnode ${me ? 'me' : ''}"><small>${me ? 'You chose' : 'Not taken'}</small><b>${o.icon} ${o.label}</b><em>${fxHtml(o.effects)}</em>${me ? `<span>${o.why}</span>` : ''}</div>`; }).join('')}</div>`; }).join('') + extra;
+  // the storm's own records
+  const all = DONKI.storms.map(x => x.warningMin).sort((p, q) => p - q), med = all[Math.floor(all.length / 2)], ids = [s.flare.id, s.particles.id, s.cloud?.id, s.storm?.id].filter(Boolean);
+  $('#fnStorm').innerHTML = `<dl><dt>Flare</dt><dd><b>${s.flare.class}</b> solar flare, ${day(s.date)}, ${clock(s.flare.start)}${s.flare.activeRegion ? ` (active region ${s.flare.activeRegion})` : ''}</dd>
+    <dt>Particles</dt><dd>first measured at ${clock(s.particles.time)} by ${craft(s.particles.instrument)}: <b>${span(s.warningMin)}</b> of warning</dd>
+    ${s.cloud ? `<dt>Cloud</dt><dd>left the Sun at ${clock(s.cloud.start)}, travelling at ${s.cloud.speedMin === s.cloud.speedMax ? num(s.cloud.speedMax) : num(s.cloud.speedMin) + ' to ' + num(s.cloud.speedMax)} km per second</dd>` : ''}
+    ${s.storm ? `<dt>Storm</dt><dd>reached Earth ${s.storm.hoursAfterFlare} hours after the flare; strength Kp ${s.storm.kpMax} out of 9</dd>` : ''}</dl>
+    NASA's records since ${DONKI.range[0].slice(0, 4)} link ${all.length} flares to measured particle events. The shortest warning was ${span(all[0])}; half gave less than ${span(med)}. Each time you play, the game draws one of ${DONKI.game.length} of these storms.
+    <span class="ids">NASA DONKI records: ${ids.join(', ')}. Pulled from api.nasa.gov on ${day(DONKI.pulled)}. Archived data, not live.</span>
+    <a href="${s.flare.link}" target="_blank" rel="noopener">The flare alert</a> · <a href="${s.particles.link}" target="_blank" rel="noopener">The particle record</a>${s.storm ? ` · <a href="${s.storm.link}" target="_blank" rel="noopener">The storm record</a>` : ''}`;
+  $('#fnLearn').innerHTML = S.learned.map(l => `<li><strong>${l.title}</strong>${l.text}${l.source ? link(l.source) : ''}</li>`).join('') || '<li>Play on to collect what you learn.</li>';
+  $('#fnPathTitle').textContent = `Your real path to ${sp.name.toLowerCase()}`;
+  $('#fnPath').innerHTML = `<ul>${rp.common.map(([w, t, src]) => `<li><em>${w}:</em> ${t}${link(src)}</li>`).join('')}<li><em>Study:</em> ${rp[S.vars.specialist].study}.</li><li><em>Real today:</em> ${rp[S.vars.specialist].real}${link(rp[S.vars.specialist].source)}</li></ul>`;
+  $('#fnHint').textContent = `On this device: ${(seen.storms || []).length} of ${DONKI.game.length} real storms faced, ${seen.ends.length} of 3 endings, ${seen.learned.length} things learned. Each space job has its own special move.`;
+  $('#stormAgain').onclick = () => { $('#finale').hidden = true; S.learned = []; go('mission'); };
+  $('#newLife').onclick = () => { $('#finale').hidden = true; restart(); };
+  $('#objective').hidden = true; clearTip(); clearChoices(); setBed(null); $('#finale').style.setProperty('--poster', `url(p/end_${S.vars.ending}.jpg)`); $('#finale').hidden = false; $('#finale').scrollTop = 0;
 }
 
 // ---------- start
 async function boot() {
-  [STORY, CLIPS] = await Promise.all([fetch('story.json').then(r => r.json()), fetch('clips.json').then(r => r.json())]);
-  renderDoors(); prefetch(['open', 'tv']); $('#start').style.setProperty('--poster', 'url(p/open.jpg)');
-  $('#sources').innerHTML = Object.values(SRC).map(([t, u]) => `<li>${t}${u ? ` <a href="${u}" target="_blank" rel="noopener">${u.replace(/^https?:\/\//, '').split('/')[0]}</a>` : ''}</li>`).join('');
-  $('#startBtn').onclick = async () => {
-    try { actx = new (window.AudioContext || window.webkitAudioContext)(); await actx.resume(); } catch { actx = null; }
-    const b = vids[1]; b.muted = true; b.src = await blobs.get('open'); b.play().then(() => b.pause()).catch(() => {});   // let both video elements play later without another tap
+  [STORY, CLIPS, DONKI] = await Promise.all(['story.json', 'clips.json', 'data/donki.json'].map(f => fetch(f).then(r => r.json())));
+  prefetch(['open', 'intro', 'tv']); $('#start').style.setProperty('--poster', 'url(p/open.jpg)');
+  $('#sources').innerHTML = Object.values(SRC).map(([t, u]) => `<li>${t}${u ? ` <a href="${u}" target="_blank" rel="noopener">${host(u)}</a>` : ''}</li>`).join('');
+  $('#aboutData').textContent = `This copy holds ${DONKI.counts.particleEvents} particle events and ${DONKI.counts.geomagneticStorms} geomagnetic storms from ${day(DONKI.range[0])} to ${day(DONKI.range[1])}, pulled on ${day(DONKI.pulled)}. ${DONKI.counts.flaresWithParticles} flares are linked to measured particles; each run draws one of ${DONKI.game.length} storms that have the full chain of records, and its real numbers are the ones you see and hear.`;
+  $('#startBtn').onclick = () => {
+    try { actx = new (window.AudioContext || window.webkitAudioContext)(); actx.resume(); } catch { actx = null; }
+    for (const v of vids) { v.src = urls.get('open') || 'v/open.mp4'; const p = v.play(); if (p) p.then(() => { if (!v._name) v.pause(); }).catch(() => {}); }   // this tap lets both video elements play with sound later
     $('#start').hidden = true; beep(660, 0.1);
     const q = new URLSearchParams(location.search), at = q.get('at');
-    if (at && at !== 'open' && at !== 'tv') { S.vars.c1 = q.get('c1') || 'engines'; S.vars.c2 = q.get('c2') || 'seeds'; S.vars.specialist = q.get('as') || 'farmer'; for (const k of ['tv', 'fair']) STORY.nodes[k].choice.options.filter(o => o.id === S.vars.c1 || o.id === S.vars.c2).forEach(o => o.opens.forEach(d => S.open.add(d))); S.open.add(S.vars.specialist); syncDoors(); }
-    go(at || STORY.start);
+    if (at && STORY.nodes[at] && at !== 'open') {                       // for testing: jump in part-way with a made-up past
+      S.vars.c1 = q.get('c1') || 'engines'; S.vars.c2 = q.get('c2') || 'seeds'; S.vars.specialist = q.get('as') || 'farmer';
+      for (const k of ['tv', 'fair']) STORY.nodes[k].choice.options.filter(o => o.id === S.vars.c1 || o.id === S.vars.c2).forEach(o => o.opens.forEach(d => S.open.add(d))); S.open.add(S.vars.specialist);
+      if (STORY.nodes[at].chapter === 2 && at !== 'mission') startMission();
+      for (const n of Object.values(STORY.nodes)) { const c = n.choice, id = c && q.get(c.key), o = id && (c.options || []).find(x => x.id === id);   // e.g. at=m2r&m2=m2b
+        if (o) { S.vars[c.key] = id; if (n.next === at) { S.last = o; S.pending = { ...o.effects }; S.log.push({ key: c.key, id, label: o.label, icon: o.icon, effects: o.effects, later: o.later, why: o.why }); } } }
+    }
+    go(at && STORY.nodes[at] ? at : STORY.start);
   };
-  for (const btn of ['#aboutBtn', '#aboutBtn2']) if ($(btn)) $(btn).onclick = () => $('#about').showModal();
+  for (const b of ['#menuBtn', '#aboutBtn2']) $(b).onclick = () => $('#about').showModal();
   $('#aboutClose').onclick = () => $('#about').close();
-  document.addEventListener('keydown', e => { const i = '123456'.indexOf(e.key); const b = document.querySelectorAll('.opt')[i]; if (i >= 0 && b && !$('#panel').hidden) b.click(); });
-  requestAnimationFrame(captions);
-  window.JAMT = { S, go, get node() { return node; }, get clip() { return clipName; } };   // for testing
+  $('#musicOn').onchange = () => setBed(node && !node.screen ? bedFor(node) : null, idle ? 0.6 : 0.3);
+  document.addEventListener('keydown', e => { if ($('#about').open) return; const b = $$('.opt.in')[+e.key - 1]; if (b && !$('#choices').classList.contains('done')) b.click(); });
+  requestAnimationFrame(frame);
+  window.JAMT = { S, go, get node() { return node; }, get clip() { return clipName; }, get idle() { return idle; } };   // for testing
 }
 boot();

@@ -4,484 +4,124 @@
  "credits": "Story state machine for the web player. Code and text written with AI assistance (Claude Fable 5.2); idea and direction by Faris.",
  "start": "open",
  "specialists": {
-  "weather": {
-   "name": "Space-weather scientist",
-   "icon": "☀️",
-   "does": "Reads the Sun and buys warning time",
-   "meter": "shield"
-  },
-  "power": {
-   "name": "Power engineer",
-   "icon": "🔋",
-   "does": "Keeps the lights on",
-   "meter": "power"
-  },
-  "doctor": {
-   "name": "Space doctor",
-   "icon": "🩺",
-   "does": "Keeps the crew in one piece",
-   "meter": "shield"
-  },
-  "farmer": {
-   "name": "Space farmer",
-   "icon": "🌱",
-   "does": "Grows the food and the air",
-   "meter": "air"
-  },
-  "comms": {
-   "name": "Comms engineer",
-   "icon": "📡",
-   "does": "Keeps the outpost talking",
-   "meter": "air"
-  }
+  "weather": { "name": "Space-weather scientist", "icon": "☀️", "does": "You read the Sun and warn the crew before a storm.", "meter": "shield" },
+  "power": { "name": "Power engineer", "icon": "🔋", "does": "You keep the base's electricity running.", "meter": "power" },
+  "doctor": { "name": "Space doctor", "icon": "🩺", "does": "You keep the crew healthy and track their radiation.", "meter": "shield" },
+  "farmer": { "name": "Space farmer", "icon": "🌱", "does": "You grow the food, and the plants make the air.", "meter": "air" },
+  "comms": { "name": "Comms engineer", "icon": "📡", "does": "You keep the base talking to Earth and to its robots.", "meter": "air" }
  },
  "meters": {
-  "scale": [
-   0,
-   5
-  ],
-  "start": {
-   "power": 3,
-   "air": 3,
-   "shield": 3
-  },
-  "labels": {
-   "power": "POWER",
-   "air": "AIR",
-   "shield": "SHIELD"
-  },
-  "icons": {
-   "power": "⚡",
-   "air": "💨",
-   "shield": "🧱"
-  }
+  "scale": [0, 5],
+  "start": { "power": 3, "air": 3, "shield": 3 },
+  "labels": { "power": "POWER", "air": "AIR", "shield": "SHIELD" },
+  "icons": { "power": "⚡", "air": "💨", "shield": "🧱" }
+ },
+ "chapters": {
+  "1": { "name": "Chapter 1", "title": "Who will you become?", "goal": "Make <b>3 choices</b>. They decide your job on the Moon.", "steps": ["Launch night", "Space competition", "The academy"] },
+  "2": { "name": "Chapter 2", "title": "Ride out the solar storm", "goal": "Keep <b>power</b>, <b>air</b> and <b>shield</b> above zero.", "steps": ["The flare", "The particles", "The peak"] }
  },
  "nodes": {
-  "open": {
-   "chapter": 1,
-   "clip": "open",
-   "next": "tv"
-  },
-  "tv": {
-   "chapter": 1,
-   "clip": "tv",
-   "loop": "tv_loop",
-   "next": "react1",
-   "fact": {
-    "text": "Real: in April 2026 a Saudi satellite called SHAMS flew toward the Moon with the Artemis II crew, to measure radiation from the Sun.",
-    "source": "shams"
-   },
-   "choice": {
-    "key": "c1",
-    "prompt": "What were you watching?",
-    "timer": 20,
-    "default": 0,
+  "open": { "chapter": 1, "clip": "open", "next": "intro", "quiet": true },
+  "intro": { "chapter": 1, "clip": "intro", "next": "tv" },
+  "tv": { "chapter": 1, "step": 0, "clip": "tv", "loop": "tv_loop", "next": "react1",
+   "choice": { "key": "c1", "prompt": "What were you watching?", "timer": 25, "default": 0, "list": [97.6, 52],
     "options": [
-     {
-      "id": "engines",
-      "icon": "🚀",
-      "label": "The engines",
-      "opens": [
-       "power",
-       "comms"
-      ]
-     },
-     {
-      "id": "sun",
-      "icon": "☀️",
-      "label": "The Sun satellite",
-      "opens": [
-       "weather"
-      ]
-     },
-     {
-      "id": "crew",
-      "icon": "👩‍🚀",
-      "label": "The crew",
-      "opens": [
-       "doctor"
-      ]
-     }
-    ]
-   }
-  },
-  "react1": {
-   "chapter": 1,
-   "clip": "react_{c1}",
-   "next": "fair"
-  },
-  "fair": {
-   "chapter": 1,
-   "clip": "fair",
-   "loop": "fair_loop",
-   "next": "react2",
-   "fact": {
-    "text": "Real: the Madak space competition (2024) was open to ages 6 to 18. Ten winning experiments flew to the International Space Station.",
-    "source": "madak"
-   },
-   "choice": {
-    "key": "c2",
-    "prompt": "Pick your experiment.",
-    "timer": 20,
-    "default": 0,
+     { "id": "engines", "icon": "🚀", "label": "The engines", "about": "The fire and the noise that lift a rocket", "opens": ["power", "comms"] },
+     { "id": "sun", "icon": "☀️", "label": "The Sun satellite", "about": "A small satellite that measures the Sun's storms", "opens": ["weather"] },
+     { "id": "crew", "icon": "🧑‍🚀", "label": "The crew", "about": "The four people riding on top", "opens": ["doctor"] }
+    ] } },
+  "react1": { "chapter": 1, "step": 0, "clip": "react_{c1}", "next": "fair" },
+  "fair": { "chapter": 1, "step": 1, "clip": "fair", "loop": "fair_loop", "next": "react2",
+   "choice": { "key": "c2", "prompt": "Pick your experiment.", "timer": 25, "default": 0,
     "options": [
-     {
-      "id": "seeds",
-      "icon": "🌱",
-      "label": "Grow seeds",
-      "opens": [
-       "farmer"
-      ]
-     },
-     {
-      "id": "racer",
-      "icon": "🔋",
-      "label": "Solar racer",
-      "opens": [
-       "power"
-      ]
-     },
-     {
-      "id": "radio",
-      "icon": "📡",
-      "label": "Send a signal",
-      "opens": [
-       "comms",
-       "weather"
-      ]
-     }
-    ]
-   }
-  },
-  "react2": {
-   "chapter": 1,
-   "clip": "react_{c2}",
-   "next": "academy"
-  },
-  "academy": {
-   "chapter": 1,
-   "clip": "academy",
-   "loop": "academy_loop",
-   "next": "reveal",
-   "fact": {
-    "text": "Real: two Saudi astronauts flew to the International Space Station in May 2023, and the SARI 2 programme helps university students build and launch small satellites.",
-    "source": "pipeline"
-   },
-   "choice": {
-    "key": "specialist",
-    "prompt": "Pick a door.",
-    "timer": 0,
-    "doors": true
-   }
-  },
-  "reveal": {
-   "chapter": 1,
-   "clip": "reveal_{specialist}",
-   "next": "chapter1"
-  },
-  "chapter1": {
-   "chapter": 1,
-   "screen": "chapter",
-   "next": "mission"
-  },
-  "mission": {
-   "chapter": 2,
-   "clip": "arrive",
-   "meters": true,
-   "next": "flare"
-  },
-  "flare": {
-   "chapter": 2,
-   "clip": "flare_{storm}",
-   "loop": "flare_loop",
-   "next": "m1r",
-   "fact": {
-    "storm": true
-   },
-   "choice": {
-    "key": "m1",
-    "prompt": "The storm is coming. Use the warning time.",
-    "timer": 20,
-    "default": 0,
+     { "id": "seeds", "icon": "🌱", "label": "Grow seeds", "about": "Can plants grow in space?", "pos": [19, 47], "opens": ["farmer"] },
+     { "id": "racer", "icon": "🔋", "label": "Solar racer", "about": "A car that runs on sunlight", "pos": [50, 43], "opens": ["power"] },
+     { "id": "radio", "icon": "📡", "label": "Send a signal", "about": "Say hello to a satellite by radio", "pos": [81, 47], "opens": ["comms", "weather"] }
+    ] } },
+  "react2": { "chapter": 1, "step": 1, "clip": "react_{c2}", "next": "academy" },
+  "academy": { "chapter": 1, "step": 2, "clip": "academy_{c1}_{c2}", "loop": "academy_{c1}_{c2}_loop", "next": "reveal", "idleTip": "pipeline",
+   "choice": { "key": "specialist", "prompt": "Pick a door. This is who you become.", "timer": 0, "doors": true, "doorY": 60, "doorX": { "2": [35.3, 64.7], "3": [24.8, 50, 75.2] } } },
+  "reveal": { "chapter": 1, "step": 3, "clip": "reveal_{specialist}", "next": "chapter1" },
+  "chapter1": { "chapter": 1, "screen": "chapter", "next": "mission" },
+  "mission": { "chapter": 2, "clip": "arrive", "meters": true, "next": "flare" },
+  "flare": { "chapter": 2, "step": 0, "clip": "{stormClip}", "loop": "flare_loop", "next": "m1r",
+   "choice": { "key": "m1", "prompt": "Use the warning time.", "timer": 25, "default": 0, "list": [97.6, 60],
     "options": [
-     {
-      "id": "m1a",
-      "icon": "🪨",
-      "label": "Bury the shelter",
-      "effects": {
-       "shield": 1,
-       "power": -1
-      },
-      "why": "Moon dirt on the roof blocks radiation. The rover drains the batteries."
-     },
-     {
-      "id": "m1b",
-      "icon": "⚡",
-      "label": "Charge up",
-      "effects": {
-       "power": 1,
-       "shield": -1
-      },
-      "why": "Full batteries for the long wait. The roof stays thin."
-     },
-     {
-      "id": "m1s",
-      "only": "weather",
-      "icon": "☀️",
-      "label": "Call it early",
-      "effects": {
-       "shield": 1,
-       "power": 1,
-       "air": -1
-      },
-      "why": "You read the first particles and start sooner. Time for both jobs, but nobody checks the air system."
-     }
-    ]
-   }
-  },
-  "m1r": {
-   "chapter": 2,
-   "clip": "{m1}",
-   "next": "particles"
-  },
-  "particles": {
-   "chapter": 2,
-   "clip": "particles",
-   "loop": "particles_loop",
-   "tax": true,
-   "next": "m2r",
-   "fact": {
-    "text": "Real: in the September 2017 storm, a detector inside the Space Station read about 1.5 times its normal dose. A thinly shielded detector in lunar orbit read more than 1,000 times. Shielding matters.",
-    "source": "radlab"
-   },
-   "choice": {
-    "key": "m2",
-    "prompt": "Batteries are dropping. The greenhouse lights are hungry!",
-    "timer": 12,
-    "default": 1,
+     { "id": "m1a", "icon": "🪨", "label": "Bury the shelter", "about": "Pile Moon dirt on the roof. Dirt blocks radiation.", "effects": { "shield": 1, "power": -1 }, "why": "Moon dirt on the roof blocks radiation. The rover drained the battery." },
+     { "id": "m1b", "icon": "⚡", "label": "Charge the batteries", "about": "Turn the solar panels to the Sun before it gets rough.", "effects": { "power": 1, "shield": -1 }, "why": "Full batteries for the long wait. The roof stayed thin." },
+     { "id": "m1s", "only": "weather", "icon": "☀️", "label": "Call it early", "about": "Your sensor saw the first particles. Start both jobs now.", "effects": { "shield": 1, "power": 1, "air": -1 }, "why": "You read the first particles and started sooner. Time for both jobs, but nobody checked the air system." }
+    ] } },
+  "m1r": { "chapter": 2, "step": 0, "clip": "{m1}", "result": true, "next": "particles" },
+  "particles": { "chapter": 2, "step": 1, "clip": "particles", "loop": "particles_loop", "tax": true, "next": "m2r", "idleTip": "radlab",
+   "choice": { "key": "m2", "prompt": "The battery is dropping. Greenhouse lights?", "timer": 14, "default": 1, "list": [97.6, 62],
     "options": [
-     {
-      "id": "m2a",
-      "icon": "💨",
-      "label": "Lights on",
-      "effects": {
-       "air": 1,
-       "power": -1
-      },
-      "why": "The plants keep making oxygen. The lights eat power."
-     },
-     {
-      "id": "m2b",
-      "icon": "⚡",
-      "label": "Lights off",
-      "effects": {
-       "power": 1,
-       "air": -1
-      },
-      "why": "Power saved. The plants stop making oxygen, and lettuce takes 3 to 4 weeks to grow back."
-     },
-     {
-      "id": "m2p",
-      "only": "power",
-      "icon": "🔋",
-      "label": "Use the night battery",
-      "effects": {
-       "power": 1,
-       "air": 1
-      },
-      "later": {
-       "power": -1
-      },
-      "why": "Lights and air both run. The long lunar night will be colder."
-     },
-     {
-      "id": "m2f",
-      "only": "farmer",
-      "icon": "🌱",
-      "label": "Carry the trays in",
-      "effects": {
-       "air": 1,
-       "power": 1,
-       "shield": -1
-      },
-      "why": "The plants clean the air where you breathe. One last trip through the thin-walled room."
-     }
-    ]
-   }
-  },
-  "m2r": {
-   "chapter": 2,
-   "clip": "{m2}",
-   "next": "peak"
-  },
-  "peak": {
-   "chapter": 2,
-   "clip": "peak",
-   "loop": "peak_loop",
-   "next": "m3r",
-   "fact": {
-    "text": "Real: a radio message crosses from the Moon to Earth in 1.3 seconds. From Mars it can take up to 22 minutes each way, so crews must be ready to decide alone.",
-    "source": "delay"
-   },
-   "choice": {
-    "key": "m3",
-    "prompt": "The air cleaner froze. The reset switch is outside the shelter.",
-    "timer": 20,
-    "default": 0,
+     { "id": "m2a", "icon": "💡", "label": "Lights on", "about": "The lettuce keeps making oxygen. The lights eat power.", "effects": { "air": 1, "power": -1 }, "why": "The plants kept making oxygen. The lights ate power." },
+     { "id": "m2b", "icon": "🌑", "label": "Lights off", "about": "Save power. Without light, the lettuce stops making oxygen.", "effects": { "power": 1, "air": -1 }, "why": "Power saved. The lettuce wilted and stopped making oxygen: it takes 3 to 4 weeks to grow back." },
+     { "id": "m2p", "only": "power", "icon": "🔋", "label": "Use the night battery", "about": "Run the lights from the spare battery. It will be empty later.", "effects": { "power": 1, "air": 1 }, "later": { "power": -1 }, "why": "Lights and air both ran. The spare battery was meant for the two-week lunar night." },
+     { "id": "m2f", "only": "farmer", "icon": "🌱", "label": "Carry the trays in", "about": "Bring the lettuce into the shelter. One more trip through thin walls.", "effects": { "air": 1, "power": 1, "shield": -1 }, "why": "The plants cleaned the air where you breathe. The trip went through the thin-walled room." }
+    ] } },
+  "m2r": { "chapter": 2, "step": 1, "clip": "{m2}", "result": true, "next": "peak" },
+  "peak": { "chapter": 2, "step": 2, "clip": "peak", "loop": "peak_loop", "next": "m3r", "idleTip": "delay",
+   "choice": { "key": "m3", "prompt": "The reset switch is outside.", "timer": 25, "default": 0, "list": [97.6, 62],
     "options": [
-     {
-      "id": "m3a",
-      "icon": "🧱",
-      "label": "Stay put",
-      "effects": {
-       "shield": 1,
-       "air": -1
-      },
-      "why": "Safe behind the thick wall. The air gets stale."
-     },
-     {
-      "id": "m3b",
-      "icon": "💨",
-      "label": "Dash out",
-      "effects": {
-       "air": 1,
-       "shield": -2
-      },
-      "why": "Fresh air. You take radiation at the worst moment of the storm."
-     },
-     {
-      "id": "m3d",
-      "only": "doctor",
-      "icon": "🩺",
-      "label": "Lowest badge goes",
-      "effects": {
-       "air": 1,
-       "shield": -1
-      },
-      "why": "You send whoever has taken the least radiation, for the shortest time."
-     },
-     {
-      "id": "m3c",
-      "only": "comms",
-      "icon": "📡",
-      "label": "Reset it by remote",
-      "effects": {
-       "air": 1,
-       "power": -1
-      },
-      "why": "You drive the rover from inside. Nobody takes a dose. The rover drains the batteries."
-     }
-    ]
-   }
-  },
-  "m3r": {
-   "chapter": 2,
-   "clip": "{m3}",
-   "next": "ending"
-  },
-  "ending": {
-   "chapter": 2,
-   "clip": "end_{ending}",
-   "ending": true,
-   "next": "finale"
-  },
-  "finale": {
-   "chapter": 2,
-   "screen": "finale"
-  }
+     { "id": "m3a", "icon": "🧱", "label": "Stay put", "about": "Stay behind the thick wall. The air cleaner stays frozen.", "effects": { "shield": 1, "air": -1 }, "why": "Safe behind the thick wall. Nobody reset the air cleaner, so the air went stale." },
+     { "id": "m3b", "icon": "🏃", "label": "Dash out", "about": "Run to the switch. You take radiation at the storm's peak.", "effects": { "air": 1, "shield": -2 }, "why": "Fresh air. You took radiation at the worst moment of the storm." },
+     { "id": "m3d", "only": "doctor", "icon": "🩺", "label": "Lowest badge goes", "about": "Send whoever has taken the least radiation, for the shortest trip.", "effects": { "air": 1, "shield": -1 }, "why": "You sent the person with the lowest dose badge, for the shortest time." },
+     { "id": "m3c", "only": "comms", "icon": "📡", "label": "Reset it by remote", "about": "Drive the rover to the switch from inside. It uses the battery.", "effects": { "air": 1, "power": -1 }, "why": "You drove the rover from inside. Nobody took a dose. The rover drained the battery." }
+    ] } },
+  "m3r": { "chapter": 2, "step": 2, "clip": "{m3}", "result": true, "next": "ending" },
+  "ending": { "chapter": 2, "step": 3, "clip": "end_{ending}", "ending": true, "next": "finale", "quiet": true },
+  "finale": { "chapter": 2, "screen": "finale" }
  },
- "storms": {
-  "_note": "One real storm is drawn at random each run. Archived NASA DONKI data: never shown as live.",
-  "jan": {
-   "name": "the January 2026 radiation storm",
-   "date": "18 January 2026",
-   "flare": "X1.9",
-   "warning": "about 5 hours",
-   "facts": "An X1.9 solar flare on 18 January 2026. Protons crossed the alert level about 5 hours later and climbed to 36,976 particle flux units. The eruption reached Earth about 25 hours after it left the Sun and caused a severe geomagnetic storm (Kp 8.67).",
-   "ids": [
-    "2026-01-18T17:27:00-FLR-001",
-    "2026-01-18T22:55:00-SEP-001",
-    "2026-01-19T18:00:00-GST-001"
-   ],
-   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/44059/1"
-  },
-  "may": {
-   "name": "the May 2024 storm",
-   "date": "11 May 2024",
-   "flare": "X5.8",
-   "warning": "about 1 hour",
-   "facts": "An X5.8 solar flare on 11 May 2024, during a Kp 9 geomagnetic storm (the top of the scale). Energetic protons arrived within about an hour.",
-   "ids": [
-    "2024-05-11T01:10:00-FLR-001",
-    "2024-05-11T02:10:00-SEP-001",
-    "2024-05-10T15:00:00-GST-001"
-   ],
-   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/GST/30693/-1",
-   "tax": {
-    "shield": -1
-   },
-   "taxWaivedFor": "m1s",
-   "taxNote": "Only one hour of warning: the storm takes 1 SHIELD before you finish.",
-   "waivedNote": "You called it early: no shield lost."
-  }
+ "tips": {
+  "you": { "kind": "tutorial", "text": "This astronaut is <b>you</b>, all grown up." },
+  "goal": { "kind": "tutorial", "text": "Your <b>choices</b> decide which <b>space job</b> you get." },
+  "launch": { "kind": "learn", "title": "Launch night, April 2026", "text": "A Saudi satellite called <b>SHAMS</b> flew toward the Moon with the Artemis II crew, to measure radiation from the Sun.", "source": "shams" },
+  "choose": { "kind": "tutorial", "text": "<b>Tap a choice</b> on the screen. Each one <b>opens doors</b> to space jobs." },
+  "madak": { "kind": "learn", "title": "A real competition", "text": "The <b>Madak</b> space competition (2024) was open to ages 6 to 18. Ten winning experiments flew to the International Space Station.", "source": "madak" },
+  "academy": { "kind": "tutorial", "text": "Each <b>door</b> is a <b>job</b> on the Moon base. Your choices opened these doors." },
+  "pipeline": { "kind": "learn", "title": "The real path", "text": "Two Saudi astronauts flew to the International Space Station in May 2023. The <b>SARI 2</b> programme helps university students build and launch small satellites.", "source": "pipeline" },
+  "mission": { "kind": "tutorial", "text": "<b>Your mission</b>: keep the Moon base alive through a storm from the Sun." },
+  "place": { "kind": "learn", "title": "Malapert Massif", "text": "A mountain near the <b>Moon's south pole</b>. NASA named it as one of the places astronauts may land.", "source": "site" },
+  "meters": { "kind": "tutorial", "text": "<b>Power</b> runs the machines. <b>Air</b> is what you breathe. <b>Shield</b> blocks radiation." },
+  "rule": { "kind": "tutorial", "text": "Keep <b>all three</b> above zero. Your <b>lowest</b> one decides the ending." },
+  "flare": { "kind": "learn", "title": "Solar flare", "text": "A giant <b>explosion on the Sun</b>. Its light reaches us in 8 minutes. The harmful particles come later." },
+  "radiation": { "kind": "learn", "title": "Radiation", "text": "Tiny, very fast <b>particles from the Sun</b>. They pass through thin walls and can harm people and computers." },
+  "shelter": { "kind": "tutorial", "text": "The <b>storm shelter</b> has the thickest walls. The crew waits here." },
+  "radlab": { "kind": "learn", "title": "Why shielding matters", "text": "In a real storm in September 2017, a detector inside the Space Station read about <b>1.5 times</b> its normal dose. A thinly shielded one in lunar orbit read more than <b>1,000 times</b>.", "source": "radlab" },
+  "bitflip": { "kind": "learn", "title": "Bit flip", "text": "A particle can hit a computer chip and flip a <b>1 into a 0</b>. The computer then does the wrong thing until it is reset." },
+  "delay": { "kind": "learn", "title": "Deciding alone", "text": "A radio message crosses from the Moon to Earth in <b>1.3 seconds</b>. From Mars it can take up to 22 minutes, so crews must be ready to decide alone.", "source": "delay" },
+  "learn_engines": { "kind": "learn", "title": "Rocket engines", "text": "An engine throws hot gas out the back, very fast. That <b>pushes the rocket the other way</b>: up." },
+  "learn_sun": { "kind": "learn", "title": "Watching the Sun", "text": "The Sun sometimes throws out bursts of radiation. Satellites like <b>SHAMS</b> measure them, so crews can be warned.", "source": "shams" },
+  "learn_crew": { "kind": "learn", "title": "Around the Moon", "text": "In April 2026 a crew of <b>four</b> flew around the Moon. The last people to travel that far went in 1972." },
+  "learn_seeds": { "kind": "learn", "title": "Space gardens", "text": "Plants can grow in space. On the Space Station, NASA grew <b>tomatoes for 101 days</b>.", "source": "veggie" },
+  "learn_racer": { "kind": "learn", "title": "Solar power", "text": "A solar panel turns <b>sunlight into electricity</b>. No light, no power: that is why a shadow stops a solar car." },
+  "learn_radio": { "kind": "learn", "title": "Radio", "text": "A radio signal travels at the speed of light. From the Moon to Earth it takes <b>1.3 seconds</b>.", "source": "delay" }
+ },
+ "storm": {
+  "_note": "One real storm is drawn each run from web/data/donki.json (pulled from NASA's DONKI API). The rule below is the only game rule that depends on it. Archived data: never shown as live.",
+  "shortWarningMin": 60,
+  "tax": { "shield": -1 },
+  "taxWaivedFor": "m1s",
+  "taxWhy": "The storm arrived before the work was finished",
+  "waivedWhy": "You called it early: no shield lost"
  },
  "endings": {
-  "rule": "Your lowest meter decides.",
-  "thrive": {
-   "title": "The outpost rode out the storm.",
-   "line": "Nothing ran empty. Back to work."
-  },
-  "lesson": {
-   "title": "Everyone is safe. One thing ran low.",
-   "line": "Now you know why that meter matters."
-  },
-  "evac": {
-   "title": "Home early, and safe.",
-   "line": "One meter hit empty, so the crew flew home. The next crew will use your notes."
-  }
+  "rule": "Your lowest meter decides the ending.",
+  "thrive": { "name": "The outpost thrives", "title": "The outpost rode out the storm.", "line": "Nothing ran empty. Back to work." },
+  "lesson": { "name": "Safe, with a lesson", "title": "Everyone is safe. One thing ran low.", "line": "Now you know why that meter matters." },
+  "evac": { "name": "Home early, safe", "title": "Home early, and safe.", "line": "One meter hit empty, so the crew flew home. The next crew will use your notes." }
  },
  "realPath": {
   "common": [
-   [
-    "Ages 6 to 18",
-    "Space competitions for school students, like Madak (2024), whose winning experiments flew to the Space Station.",
-    "madak"
-   ],
-   [
-    "University",
-    "SARI 2: build and launch a small satellite as a student team.",
-    "pipeline"
-   ],
-   [
-    "After that",
-    "Saudi astronauts have already flown: two went to the Space Station in May 2023.",
-    "ax2"
-   ]
+   ["Ages 6 to 18", "Space competitions for school students, like Madak (2024), whose winning experiments flew to the Space Station.", "madak"],
+   ["University", "SARI 2: build and launch a small satellite as a student team.", "pipeline"],
+   ["After that", "Saudi astronauts have already flown: two went to the Space Station in May 2023.", "ax2"]
   ],
-  "weather": {
-   "study": "Physics or astronomy",
-   "real": "SHAMS, a Saudi satellite, flew with the Artemis II crew in 2026 to measure radiation from the Sun.",
-   "source": "shams"
-  },
-  "power": {
-   "study": "Electrical or mechanical engineering",
-   "real": "A night on most of the Moon lasts about two weeks, and the surface drops below minus 170 degrees Celsius. Power is everything.",
-   "source": "diviner"
-  },
-  "doctor": {
-   "study": "Medicine or biology",
-   "real": "On long missions astronauts lose about 1 to 1.5 percent of their bone density each month. Space doctors fight that.",
-   "source": "bone"
-  },
-  "farmer": {
-   "study": "Plant science or agricultural engineering",
-   "real": "NASA grew tomatoes on the Space Station for 101 days. Lettuce takes 21 to 28 days.",
-   "source": "veggie"
-  },
-  "comms": {
-   "study": "Computer or communications engineering",
-   "real": "A signal from the Moon reaches Earth in 1.3 seconds. From Mars it can take 22 minutes.",
-   "source": "delay"
-  }
+  "weather": { "study": "Physics or astronomy", "real": "SHAMS, a Saudi satellite, flew with the Artemis II crew in 2026 to measure radiation from the Sun.", "source": "shams" },
+  "power": { "study": "Electrical or mechanical engineering", "real": "A night on most of the Moon lasts about two weeks, and the surface drops below minus 170 degrees Celsius. Power is everything.", "source": "diviner" },
+  "doctor": { "study": "Medicine or biology", "real": "On long missions astronauts lose about 1 to 1.5 percent of their bone density each month. Space doctors fight that.", "source": "bone" },
+  "farmer": { "study": "Plant science or agricultural engineering", "real": "NASA grew tomatoes on the Space Station for 101 days. Lettuce takes 21 to 28 days.", "source": "veggie" },
+  "comms": { "study": "Computer or communications engineering", "real": "A signal from the Moon reaches Earth in 1.3 seconds. From Mars it can take 22 minutes.", "source": "delay" }
  }
 }

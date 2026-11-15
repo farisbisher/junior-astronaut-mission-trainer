@@ -2,7 +2,7 @@
  "open": {
   "duration": 12,
   "loop": false,
-  "choicesAt": null,
+  "ui": [],
   "captions": [
    {
     "t0": 2.76,
@@ -35,12 +35,87 @@
     "t1": 10.95
    }
   ],
-  "kb": 2506
+  "kb": 2544
+ },
+ "intro": {
+  "duration": 6.708,
+  "loop": false,
+  "ui": [
+   {
+    "t": 0.87,
+    "ui": "tip",
+    "id": "you"
+   },
+   {
+    "t": 4.42,
+    "ui": "tip",
+    "id": "goal"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 0.48,
+    "text": "I am you.",
+    "who": "hero",
+    "t1": 1.35
+   },
+   {
+    "t0": 1.35,
+    "text": "All grown up, on the Moon.",
+    "who": "hero",
+    "t1": 3.25
+   },
+   {
+    "t0": 3.25,
+    "text": "My job up here?",
+    "who": "hero",
+    "t1": 4.42
+   },
+   {
+    "t0": 4.42,
+    "text": "You choose it.",
+    "who": "hero",
+    "t1": 5.14
+   },
+   {
+    "t0": 5.14,
+    "text": "Three choices.",
+    "who": "hero",
+    "t1": 6.72
+   }
+  ],
+  "kb": 1235
  },
  "tv": {
-  "duration": 14.917,
+  "duration": 14.167,
   "loop": false,
-  "choicesAt": 10.83,
+  "ui": [
+   {
+    "t": 5.42,
+    "ui": "tip",
+    "id": "launch"
+   },
+   {
+    "t": 10.83,
+    "ui": "tip",
+    "id": "choose"
+   },
+   {
+    "t": 11.3,
+    "ui": "opt",
+    "id": "engines"
+   },
+   {
+    "t": 12.05,
+    "ui": "opt",
+    "id": "sun"
+   },
+   {
+    "t": 13.2,
+    "ui": "opt",
+    "id": "crew"
+   }
+  ],
   "captions": [
    {
     "t0": 0.42,
@@ -103,20 +178,30 @@
     "t1": 14.29
    }
   ],
-  "kb": 2940
+  "kb": 2841
  },
  "tv_loop": {
   "duration": 4,
   "loop": true,
-  "choicesAt": null,
+  "ui": [],
   "captions": [],
-  "kb": 815
+  "kb": 566
  },
  "react_engines": {
-  "duration": 5.708,
+  "duration": 5.208,
   "loop": false,
-  "choicesAt": null,
-  "ui": [],
+  "ui": [
+   {
+    "t": 0.87,
+    "ui": "tip",
+    "id": "door"
+   },
+   {
+    "t": 3.65,
+    "ui": "tip",
+    "id": "learn"
+   }
+  ],
   "captions": [
    {
     "t0": 1.75,
@@ -131,13 +216,23 @@
     "t1": 5.07
    }
   ],
-  "kb": 1085
+  "kb": 1024
  },
  "react_sun": {
-  "duration": 6.875,
+  "duration": 6.375,
   "loop": false,
-  "choicesAt": null,
-  "ui": [],
+  "ui": [
+   {
+    "t": 0.87,
+    "ui": "tip",
+    "id": "door"
+   },
+   {
+    "t": 3.65,
+    "ui": "tip",
+    "id": "learn"
+   }
+  ],
   "captions": [
    {
     "t0": 1.79,
@@ -152,13 +247,23 @@
     "t1": 6.42
    }
   ],
-  "kb": 1324
+  "kb": 1239
  },
  "react_crew": {
-  "duration": 6.417,
+  "duration": 5.917,
   "loop": false,
-  "choicesAt": null,
-  "ui": [],
+  "ui": [
+   {
+    "t": 0.87,
+    "ui": "tip",
+    "id": "door"
+   },
+   {
+    "t": 3.65,
+    "ui": "tip",
+    "id": "learn"
+   }
+  ],
   "captions": [
    {
     "t0": 1.79,
@@ -173,12 +278,33 @@
     "t1": 5.57
    }
   ],
-  "kb": 1220
+  "kb": 1170
  },
  "fair": {
-  "duration": 14.458,
+  "duration": 13.708,
   "loop": false,
-  "choicesAt": 10.58,
+  "ui": [
+   {
+    "t": 2.07,
+    "ui": "tip",
+    "id": "madak"
+   },
+   {
+    "t": 10.87,
+    "ui": "opt",
+    "id": "seeds"
+   },
+   {
+    "t": 11.43,
+    "ui": "opt",
+    "id": "racer"
+   },
+   {
+    "t": 12.63,
+    "ui": "opt",
+    "id": "radio"
+   }
+  ],
   "captions": [
    {
     "t0": 0.42,
@@ -229,20 +355,30 @@
     "t1": 13.87
    }
   ],
-  "kb": 2790
+  "kb": 2667
  },
  "fair_loop": {
   "duration": 4,
   "loop": true,
-  "choicesAt": null,
+  "ui": [],
   "captions": [],
-  "kb": 645
+  "kb": 511
  },
  "react_seeds": {
-  "duration": 6.375,
+  "duration": 5.875,
   "loop": false,
-  "choicesAt": null,
-  "ui": [],
+  "ui": [
+   {
+    "t": 0.87,
+    "ui": "tip",
+    "id": "door"
+   },
+   {
+    "t": 3.65,
+    "ui": "tip",
+    "id": "learn"
+   }
+  ],
   "captions": [
    {
     "t0": 1.82,
@@ -263,13 +399,23 @@
     "t1": 5.9
    }
   ],
-  "kb": 1168
+  "kb": 1130
  },
  "react_racer": {
-  "duration": 8,
+  "duration": 7.5,
   "loop": false,
-  "choicesAt": null,
-  "ui": [],
+  "ui": [
+   {
+    "t": 0.87,
+    "ui": "tip",
+    "id": "door"
+   },
+   {
+    "t": 3.65,
+    "ui": "tip",
+    "id": "learn"
+   }
+  ],
   "captions": [
    {
     "t0": 1.67,
@@ -290,13 +436,23 @@
     "t1": 7.34
    }
   ],
-  "kb": 1478
+  "kb": 1416
  },
  "react_radio": {
-  "duration": 7.542,
+  "duration": 7.042,
   "loop": false,
-  "choicesAt": null,
-  "ui": [],
+  "ui": [
+   {
+    "t": 0.87,
+    "ui": "tip",
+    "id": "door"
+   },
+   {
+    "t": 3.65,
+    "ui": "tip",
+    "id": "learn"
+   }
+  ],
   "captions": [
    {
     "t0": 1.79,
@@ -317,12 +473,33 @@
     "t1": 6.69
    }
   ],
-  "kb": 1383
+  "kb": 1338
  },
- "academy": {
-  "duration": 10.542,
+ "academy_engines_seeds": {
+  "duration": 9,
   "loop": false,
-  "choicesAt": 7.13,
+  "ui": [
+   {
+    "t": 2.78,
+    "ui": "tip",
+    "id": "academy"
+   },
+   {
+    "t": 6.33,
+    "ui": "opt",
+    "id": "power"
+   },
+   {
+    "t": 6.68,
+    "ui": "opt",
+    "id": "farmer"
+   },
+   {
+    "t": 7.03,
+    "ui": "opt",
+    "id": "comms"
+   }
+  ],
   "captions": [
    {
     "t0": 0.42,
@@ -337,49 +514,600 @@
     "t1": 3.02
    },
    {
-    "t0": 3.12,
-    "text": "Five doors.",
+    "t0": 3.03,
+    "text": "Three doors.",
     "who": "mentor",
-    "t1": 3.84
+    "t1": 3.63
    },
    {
-    "t0": 3.84,
-    "text": "Some of them are locked.",
+    "t0": 3.63,
+    "text": "You opened them yourself.",
     "who": "mentor",
-    "t1": 4.79
+    "t1": 4.82
    },
    {
-    "t0": 4.79,
-    "text": "You locked them.",
-    "who": "mentor",
-    "t1": 5.55
-   },
-   {
-    "t0": 5.55,
+    "t0": 4.82,
     "text": "Years ago.",
     "who": "mentor",
-    "t1": 7.02
+    "t1": 6.23
    },
    {
-    "t0": 8.39,
+    "t0": 7.6,
     "text": "Pick a door.",
     "who": "hero",
-    "t1": 9.79
+    "t1": 9
    }
   ],
-  "kb": 1910
+  "kb": 1685
  },
- "academy_loop": {
+ "academy_engines_seeds_loop": {
   "duration": 4,
   "loop": true,
-  "choicesAt": null,
+  "ui": [],
   "captions": [],
-  "kb": 548
+  "kb": 599
+ },
+ "academy_engines_racer": {
+  "duration": 8.542,
+  "loop": false,
+  "ui": [
+   {
+    "t": 2.78,
+    "ui": "tip",
+    "id": "academy"
+   },
+   {
+    "t": 6.25,
+    "ui": "opt",
+    "id": "power"
+   },
+   {
+    "t": 6.6,
+    "ui": "opt",
+    "id": "comms"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 0.42,
+    "text": "Ten years later.",
+    "who": "hero",
+    "t1": 1.54
+   },
+   {
+    "t0": 1.54,
+    "text": "The academy.",
+    "who": "hero",
+    "t1": 3.02
+   },
+   {
+    "t0": 3.08,
+    "text": "Two doors.",
+    "who": "mentor",
+    "t1": 3.65
+   },
+   {
+    "t0": 3.65,
+    "text": "You opened them yourself.",
+    "who": "mentor",
+    "t1": 4.84
+   },
+   {
+    "t0": 4.84,
+    "text": "Years ago.",
+    "who": "mentor",
+    "t1": 6.22
+   },
+   {
+    "t0": 7.14,
+    "text": "Pick a door.",
+    "who": "hero",
+    "t1": 8.54
+   }
+  ],
+  "kb": 1635
+ },
+ "academy_engines_racer_loop": {
+  "duration": 4,
+  "loop": true,
+  "ui": [],
+  "captions": [],
+  "kb": 600
+ },
+ "academy_engines_radio": {
+  "duration": 9,
+  "loop": false,
+  "ui": [
+   {
+    "t": 2.78,
+    "ui": "tip",
+    "id": "academy"
+   },
+   {
+    "t": 6.33,
+    "ui": "opt",
+    "id": "weather"
+   },
+   {
+    "t": 6.68,
+    "ui": "opt",
+    "id": "power"
+   },
+   {
+    "t": 7.03,
+    "ui": "opt",
+    "id": "comms"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 0.42,
+    "text": "Ten years later.",
+    "who": "hero",
+    "t1": 1.54
+   },
+   {
+    "t0": 1.54,
+    "text": "The academy.",
+    "who": "hero",
+    "t1": 3.02
+   },
+   {
+    "t0": 3.03,
+    "text": "Three doors.",
+    "who": "mentor",
+    "t1": 3.63
+   },
+   {
+    "t0": 3.63,
+    "text": "You opened them yourself.",
+    "who": "mentor",
+    "t1": 4.82
+   },
+   {
+    "t0": 4.82,
+    "text": "Years ago.",
+    "who": "mentor",
+    "t1": 6.23
+   },
+   {
+    "t0": 7.6,
+    "text": "Pick a door.",
+    "who": "hero",
+    "t1": 9
+   }
+  ],
+  "kb": 1698
+ },
+ "academy_engines_radio_loop": {
+  "duration": 4,
+  "loop": true,
+  "ui": [],
+  "captions": [],
+  "kb": 603
+ },
+ "academy_sun_seeds": {
+  "duration": 8.542,
+  "loop": false,
+  "ui": [
+   {
+    "t": 2.78,
+    "ui": "tip",
+    "id": "academy"
+   },
+   {
+    "t": 6.25,
+    "ui": "opt",
+    "id": "weather"
+   },
+   {
+    "t": 6.6,
+    "ui": "opt",
+    "id": "farmer"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 0.42,
+    "text": "Ten years later.",
+    "who": "hero",
+    "t1": 1.54
+   },
+   {
+    "t0": 1.54,
+    "text": "The academy.",
+    "who": "hero",
+    "t1": 3.02
+   },
+   {
+    "t0": 3.08,
+    "text": "Two doors.",
+    "who": "mentor",
+    "t1": 3.65
+   },
+   {
+    "t0": 3.65,
+    "text": "You opened them yourself.",
+    "who": "mentor",
+    "t1": 4.84
+   },
+   {
+    "t0": 4.84,
+    "text": "Years ago.",
+    "who": "mentor",
+    "t1": 6.22
+   },
+   {
+    "t0": 7.14,
+    "text": "Pick a door.",
+    "who": "hero",
+    "t1": 8.54
+   }
+  ],
+  "kb": 1639
+ },
+ "academy_sun_seeds_loop": {
+  "duration": 4,
+  "loop": true,
+  "ui": [],
+  "captions": [],
+  "kb": 604
+ },
+ "academy_sun_racer": {
+  "duration": 8.542,
+  "loop": false,
+  "ui": [
+   {
+    "t": 2.78,
+    "ui": "tip",
+    "id": "academy"
+   },
+   {
+    "t": 6.25,
+    "ui": "opt",
+    "id": "weather"
+   },
+   {
+    "t": 6.6,
+    "ui": "opt",
+    "id": "power"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 0.42,
+    "text": "Ten years later.",
+    "who": "hero",
+    "t1": 1.54
+   },
+   {
+    "t0": 1.54,
+    "text": "The academy.",
+    "who": "hero",
+    "t1": 3.02
+   },
+   {
+    "t0": 3.08,
+    "text": "Two doors.",
+    "who": "mentor",
+    "t1": 3.65
+   },
+   {
+    "t0": 3.65,
+    "text": "You opened them yourself.",
+    "who": "mentor",
+    "t1": 4.84
+   },
+   {
+    "t0": 4.84,
+    "text": "Years ago.",
+    "who": "mentor",
+    "t1": 6.22
+   },
+   {
+    "t0": 7.14,
+    "text": "Pick a door.",
+    "who": "hero",
+    "t1": 8.54
+   }
+  ],
+  "kb": 1645
+ },
+ "academy_sun_racer_loop": {
+  "duration": 4,
+  "loop": true,
+  "ui": [],
+  "captions": [],
+  "kb": 600
+ },
+ "academy_sun_radio": {
+  "duration": 8.542,
+  "loop": false,
+  "ui": [
+   {
+    "t": 2.78,
+    "ui": "tip",
+    "id": "academy"
+   },
+   {
+    "t": 6.25,
+    "ui": "opt",
+    "id": "weather"
+   },
+   {
+    "t": 6.6,
+    "ui": "opt",
+    "id": "comms"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 0.42,
+    "text": "Ten years later.",
+    "who": "hero",
+    "t1": 1.54
+   },
+   {
+    "t0": 1.54,
+    "text": "The academy.",
+    "who": "hero",
+    "t1": 3.02
+   },
+   {
+    "t0": 3.08,
+    "text": "Two doors.",
+    "who": "mentor",
+    "t1": 3.65
+   },
+   {
+    "t0": 3.65,
+    "text": "You opened them yourself.",
+    "who": "mentor",
+    "t1": 4.84
+   },
+   {
+    "t0": 4.84,
+    "text": "Years ago.",
+    "who": "mentor",
+    "t1": 6.22
+   },
+   {
+    "t0": 7.14,
+    "text": "Pick a door.",
+    "who": "hero",
+    "t1": 8.54
+   }
+  ],
+  "kb": 1639
+ },
+ "academy_sun_radio_loop": {
+  "duration": 4,
+  "loop": true,
+  "ui": [],
+  "captions": [],
+  "kb": 602
+ },
+ "academy_crew_seeds": {
+  "duration": 8.542,
+  "loop": false,
+  "ui": [
+   {
+    "t": 2.78,
+    "ui": "tip",
+    "id": "academy"
+   },
+   {
+    "t": 6.25,
+    "ui": "opt",
+    "id": "doctor"
+   },
+   {
+    "t": 6.6,
+    "ui": "opt",
+    "id": "farmer"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 0.42,
+    "text": "Ten years later.",
+    "who": "hero",
+    "t1": 1.54
+   },
+   {
+    "t0": 1.54,
+    "text": "The academy.",
+    "who": "hero",
+    "t1": 3.02
+   },
+   {
+    "t0": 3.08,
+    "text": "Two doors.",
+    "who": "mentor",
+    "t1": 3.65
+   },
+   {
+    "t0": 3.65,
+    "text": "You opened them yourself.",
+    "who": "mentor",
+    "t1": 4.84
+   },
+   {
+    "t0": 4.84,
+    "text": "Years ago.",
+    "who": "mentor",
+    "t1": 6.22
+   },
+   {
+    "t0": 7.14,
+    "text": "Pick a door.",
+    "who": "hero",
+    "t1": 8.54
+   }
+  ],
+  "kb": 1629
+ },
+ "academy_crew_seeds_loop": {
+  "duration": 4,
+  "loop": true,
+  "ui": [],
+  "captions": [],
+  "kb": 599
+ },
+ "academy_crew_racer": {
+  "duration": 8.542,
+  "loop": false,
+  "ui": [
+   {
+    "t": 2.78,
+    "ui": "tip",
+    "id": "academy"
+   },
+   {
+    "t": 6.25,
+    "ui": "opt",
+    "id": "power"
+   },
+   {
+    "t": 6.6,
+    "ui": "opt",
+    "id": "doctor"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 0.42,
+    "text": "Ten years later.",
+    "who": "hero",
+    "t1": 1.54
+   },
+   {
+    "t0": 1.54,
+    "text": "The academy.",
+    "who": "hero",
+    "t1": 3.02
+   },
+   {
+    "t0": 3.08,
+    "text": "Two doors.",
+    "who": "mentor",
+    "t1": 3.65
+   },
+   {
+    "t0": 3.65,
+    "text": "You opened them yourself.",
+    "who": "mentor",
+    "t1": 4.84
+   },
+   {
+    "t0": 4.84,
+    "text": "Years ago.",
+    "who": "mentor",
+    "t1": 6.22
+   },
+   {
+    "t0": 7.14,
+    "text": "Pick a door.",
+    "who": "hero",
+    "t1": 8.54
+   }
+  ],
+  "kb": 1634
+ },
+ "academy_crew_racer_loop": {
+  "duration": 4,
+  "loop": true,
+  "ui": [],
+  "captions": [],
+  "kb": 600
+ },
+ "academy_crew_radio": {
+  "duration": 9,
+  "loop": false,
+  "ui": [
+   {
+    "t": 2.78,
+    "ui": "tip",
+    "id": "academy"
+   },
+   {
+    "t": 6.33,
+    "ui": "opt",
+    "id": "weather"
+   },
+   {
+    "t": 6.68,
+    "ui": "opt",
+    "id": "doctor"
+   },
+   {
+    "t": 7.03,
+    "ui": "opt",
+    "id": "comms"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 0.42,
+    "text": "Ten years later.",
+    "who": "hero",
+    "t1": 1.54
+   },
+   {
+    "t0": 1.54,
+    "text": "The academy.",
+    "who": "hero",
+    "t1": 3.02
+   },
+   {
+    "t0": 3.03,
+    "text": "Three doors.",
+    "who": "mentor",
+    "t1": 3.63
+   },
+   {
+    "t0": 3.63,
+    "text": "You opened them yourself.",
+    "who": "mentor",
+    "t1": 4.82
+   },
+   {
+    "t0": 4.82,
+    "text": "Years ago.",
+    "who": "mentor",
+    "t1": 6.23
+   },
+   {
+    "t0": 7.6,
+    "text": "Pick a door.",
+    "who": "hero",
+    "t1": 9
+   }
+  ],
+  "kb": 1699
+ },
+ "academy_crew_radio_loop": {
+  "duration": 4,
+  "loop": true,
+  "ui": [],
+  "captions": [],
+  "kb": 600
  },
  "reveal_weather": {
-  "duration": 10.167,
+  "duration": 11.583,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 2.86,
+    "ui": "tip",
+    "id": "specialist"
+   },
+   {
+    "t": 6.54,
+    "ui": "tip",
+    "id": "mission"
+   }
+  ],
   "captions": [
    {
     "t0": 2.98,
@@ -391,27 +1119,44 @@
     "t0": 4.61,
     "text": "I read the Sun.",
     "who": "hero",
-    "t1": 6.09
+    "t1": 6.08
    },
    {
-    "t0": 6.09,
+    "t0": 6.08,
     "text": "Now.",
     "who": "hero",
-    "t1": 6.3
+    "t1": 6.35
    },
    {
-    "t0": 6.3,
-    "text": "About that storm.",
+    "t0": 6.35,
+    "text": "My first mission.",
     "who": "hero",
-    "t1": 7.99
+    "t1": 7.66
+   },
+   {
+    "t0": 7.66,
+    "text": "A storm is coming from the Sun.",
+    "who": "hero",
+    "t1": 10.2
    }
   ],
-  "kb": 2143
+  "kb": 2451
  },
  "reveal_power": {
-  "duration": 9.833,
+  "duration": 11.25,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 2.86,
+    "ui": "tip",
+    "id": "specialist"
+   },
+   {
+    "t": 6.21,
+    "ui": "tip",
+    "id": "mission"
+   }
+  ],
   "captions": [
    {
     "t0": 3,
@@ -423,27 +1168,44 @@
     "t0": 4.1,
     "text": "I keep the lights on.",
     "who": "hero",
-    "t1": 5.76
+    "t1": 5.74
    },
    {
-    "t0": 5.76,
+    "t0": 5.74,
     "text": "Now.",
     "who": "hero",
-    "t1": 5.97
+    "t1": 6.02
    },
    {
-    "t0": 5.97,
-    "text": "About that storm.",
+    "t0": 6.02,
+    "text": "My first mission.",
     "who": "hero",
-    "t1": 7.66
+    "t1": 7.33
+   },
+   {
+    "t0": 7.33,
+    "text": "A storm is coming from the Sun.",
+    "who": "hero",
+    "t1": 9.87
    }
   ],
-  "kb": 2063
+  "kb": 2477
  },
  "reveal_doctor": {
-  "duration": 10.333,
+  "duration": 11.75,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 2.86,
+    "ui": "tip",
+    "id": "specialist"
+   },
+   {
+    "t": 6.71,
+    "ui": "tip",
+    "id": "mission"
+   }
+  ],
   "captions": [
    {
     "t0": 2.98,
@@ -455,27 +1217,44 @@
     "t0": 4.03,
     "text": "I keep the crew in one piece.",
     "who": "hero",
-    "t1": 6.26
+    "t1": 6.24
    },
    {
-    "t0": 6.26,
+    "t0": 6.24,
     "text": "Now.",
     "who": "hero",
-    "t1": 6.47
+    "t1": 6.52
    },
    {
-    "t0": 6.47,
-    "text": "About that storm.",
+    "t0": 6.52,
+    "text": "My first mission.",
     "who": "hero",
-    "t1": 8.16
+    "t1": 7.83
+   },
+   {
+    "t0": 7.83,
+    "text": "A storm is coming from the Sun.",
+    "who": "hero",
+    "t1": 10.37
    }
   ],
-  "kb": 2184
+  "kb": 2573
  },
  "reveal_farmer": {
-  "duration": 9.333,
+  "duration": 10.75,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 2.86,
+    "ui": "tip",
+    "id": "specialist"
+   },
+   {
+    "t": 5.71,
+    "ui": "tip",
+    "id": "mission"
+   }
+  ],
   "captions": [
    {
     "t0": 2.98,
@@ -487,27 +1266,44 @@
     "t0": 3.81,
     "text": "I grow the air.",
     "who": "hero",
-    "t1": 5.26
+    "t1": 5.24
    },
    {
-    "t0": 5.26,
+    "t0": 5.24,
     "text": "Now.",
     "who": "hero",
-    "t1": 5.47
+    "t1": 5.52
    },
    {
-    "t0": 5.47,
-    "text": "About that storm.",
+    "t0": 5.52,
+    "text": "My first mission.",
     "who": "hero",
-    "t1": 7.16
+    "t1": 6.83
+   },
+   {
+    "t0": 6.83,
+    "text": "A storm is coming from the Sun.",
+    "who": "hero",
+    "t1": 9.37
    }
   ],
-  "kb": 1991
+  "kb": 2349
  },
  "reveal_comms": {
-  "duration": 9.75,
+  "duration": 11.167,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 2.86,
+    "ui": "tip",
+    "id": "specialist"
+   },
+   {
+    "t": 6.13,
+    "ui": "tip",
+    "id": "mission"
+   }
+  ],
   "captions": [
    {
     "t0": 2.96,
@@ -519,28 +1315,67 @@
     "t0": 4.11,
     "text": "I keep us talking.",
     "who": "hero",
-    "t1": 5.67
+    "t1": 5.66
    },
    {
-    "t0": 5.67,
+    "t0": 5.66,
     "text": "Now.",
     "who": "hero",
-    "t1": 5.89
+    "t1": 5.93
    },
    {
-    "t0": 5.89,
-    "text": "About that storm.",
+    "t0": 5.93,
+    "text": "My first mission.",
     "who": "hero",
-    "t1": 7.57
+    "t1": 7.25
+   },
+   {
+    "t0": 7.25,
+    "text": "A storm is coming from the Sun.",
+    "who": "hero",
+    "t1": 9.78
    }
   ],
-  "kb": 2082
+  "kb": 2468
  },
  "arrive": {
-  "duration": 10.833,
+  "duration": 13.708,
   "loop": false,
-  "choicesAt": null,
   "ui": [
+   {
+    "t": 0.3,
+    "ui": "tip",
+    "id": "place"
+   },
+   {
+    "t": 1.83,
+    "ui": "cut"
+   },
+   {
+    "t": 5.92,
+    "ui": "cut"
+   },
+   {
+    "t": 6.02,
+    "ui": "tag",
+    "text": "You, grown up",
+    "dur": 1.7,
+    "x": 0.355,
+    "y": 0.591
+   },
+   {
+    "t": 6.02,
+    "ui": "tag",
+    "text": "Your crewmate",
+    "dur": 1.7,
+    "x": 0.639,
+    "y": 0.585
+   },
+   {
+    "t": 6.28,
+    "ui": "tip",
+    "id": "meters"
+   },
    {
     "t": 8.13,
     "ui": "meter",
@@ -555,6 +1390,15 @@
     "t": 9.14,
     "ui": "meter",
     "id": "shield"
+   },
+   {
+    "t": 9.92,
+    "ui": "cut"
+   },
+   {
+    "t": 10.08,
+    "ui": "tip",
+    "id": "rule"
    }
   ],
   "captions": [
@@ -598,59 +1442,139 @@
     "t0": 9.14,
     "text": "Shielding.",
     "who": "hero",
-    "t1": 10.42
+    "t1": 10.04
+   },
+   {
+    "t0": 10.04,
+    "text": "If one of them runs out, we have to fly home.",
+    "who": "hero",
+    "t1": 13.39
    }
   ],
-  "kb": 2034
+  "kb": 2501
  },
- "flare_jan": {
-  "duration": 16.75,
+ "flare_30": {
+  "duration": 16.208,
   "loop": false,
-  "choicesAt": 9.92,
+  "ui": [
+   {
+    "t": 1,
+    "ui": "tip",
+    "id": "flare"
+   },
+   {
+    "t": 1.5,
+    "ui": "cut"
+   },
+   {
+    "t": 4.86,
+    "ui": "tip",
+    "id": "storm_flare"
+   },
+   {
+    "t": 6.25,
+    "ui": "cut"
+   },
+   {
+    "t": 8,
+    "ui": "cut"
+   },
+   {
+    "t": 9.75,
+    "ui": "cut"
+   },
+   {
+    "t": 10.23,
+    "ui": "opt",
+    "id": "m1a"
+   },
+   {
+    "t": 12.38,
+    "ui": "opt",
+    "id": "m1b"
+   }
+  ],
   "captions": [
    {
     "t0": 1.65,
     "text": "That flash was a solar flare.",
     "who": "hero",
-    "t1": 4.16
+    "t1": 4.19
    },
    {
-    "t0": 4.16,
+    "t0": 4.19,
     "text": "The light took eight minutes to get here.",
     "who": "hero",
-    "t1": 6.3
+    "t1": 6.35
    },
    {
-    "t0": 6.3,
+    "t0": 6.35,
     "text": "The particles are slower.",
     "who": "hero",
-    "t1": 8.03
+    "t1": 8.1
    },
    {
-    "t0": 8.03,
-    "text": "We have about five hours.",
+    "t0": 8.1,
+    "text": "We have about half an hour.",
     "who": "hero",
-    "t1": 10.08
+    "t1": 9.92
    },
    {
-    "t0": 10.08,
+    "t0": 9.92,
     "text": "We can bury the shelter in Moon dirt, or charge the batteries.",
     "who": "hero",
-    "t1": 14.13
+    "t1": 13.97
    },
    {
-    "t0": 14.13,
+    "t0": 13.97,
     "text": "There is no time for both.",
     "who": "hero",
-    "t1": 16.33
+    "t1": 16.17
    }
   ],
-  "kb": 3202
+  "kb": 3058
  },
- "flare_may": {
-  "duration": 16.417,
+ "flare_60": {
+  "duration": 16.042,
   "loop": false,
-  "choicesAt": 9.58,
+  "ui": [
+   {
+    "t": 1,
+    "ui": "tip",
+    "id": "flare"
+   },
+   {
+    "t": 1.5,
+    "ui": "cut"
+   },
+   {
+    "t": 4.86,
+    "ui": "tip",
+    "id": "storm_flare"
+   },
+   {
+    "t": 6.25,
+    "ui": "cut"
+   },
+   {
+    "t": 8,
+    "ui": "cut"
+   },
+   {
+    "t": 9.58,
+    "ui": "cut"
+   },
+   {
+    "t": 10.06,
+    "ui": "opt",
+    "id": "m1a"
+   },
+   {
+    "t": 12.21,
+    "ui": "opt",
+    "id": "m1b"
+   }
+  ],
   "captions": [
    {
     "t0": 1.65,
@@ -689,19 +1613,305 @@
     "t1": 16
    }
   ],
-  "kb": 3123
+  "kb": 3119
+ },
+ "flare_110": {
+  "duration": 16.292,
+  "loop": false,
+  "ui": [
+   {
+    "t": 1,
+    "ui": "tip",
+    "id": "flare"
+   },
+   {
+    "t": 1.5,
+    "ui": "cut"
+   },
+   {
+    "t": 4.84,
+    "ui": "tip",
+    "id": "storm_flare"
+   },
+   {
+    "t": 6.2,
+    "ui": "cut"
+   },
+   {
+    "t": 7.88,
+    "ui": "cut"
+   },
+   {
+    "t": 9.83,
+    "ui": "cut"
+   },
+   {
+    "t": 10.31,
+    "ui": "opt",
+    "id": "m1a"
+   },
+   {
+    "t": 12.46,
+    "ui": "opt",
+    "id": "m1b"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 1.65,
+    "text": "That flash was a solar flare.",
+    "who": "hero",
+    "t1": 4.16
+   },
+   {
+    "t0": 4.16,
+    "text": "The light took eight minutes to get here.",
+    "who": "hero",
+    "t1": 6.3
+   },
+   {
+    "t0": 6.3,
+    "text": "The particles are slower.",
+    "who": "hero",
+    "t1": 7.97
+   },
+   {
+    "t0": 7.97,
+    "text": "We have almost two hours.",
+    "who": "hero",
+    "t1": 10
+   },
+   {
+    "t0": 10,
+    "text": "We can bury the shelter in Moon dirt, or charge the batteries.",
+    "who": "hero",
+    "t1": 14.05
+   },
+   {
+    "t0": 14.05,
+    "text": "There is no time for both.",
+    "who": "hero",
+    "t1": 16.25
+   }
+  ],
+  "kb": 3142
+ },
+ "flare_150": {
+  "duration": 16.875,
+  "loop": false,
+  "ui": [
+   {
+    "t": 1,
+    "ui": "tip",
+    "id": "flare"
+   },
+   {
+    "t": 1.5,
+    "ui": "cut"
+   },
+   {
+    "t": 4.86,
+    "ui": "tip",
+    "id": "storm_flare"
+   },
+   {
+    "t": 6.25,
+    "ui": "cut"
+   },
+   {
+    "t": 8.05,
+    "ui": "cut"
+   },
+   {
+    "t": 10.42,
+    "ui": "cut"
+   },
+   {
+    "t": 10.9,
+    "ui": "opt",
+    "id": "m1a"
+   },
+   {
+    "t": 13.05,
+    "ui": "opt",
+    "id": "m1b"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 1.65,
+    "text": "That flash was a solar flare.",
+    "who": "hero",
+    "t1": 4.19
+   },
+   {
+    "t0": 4.19,
+    "text": "The light took eight minutes to get here.",
+    "who": "hero",
+    "t1": 6.35
+   },
+   {
+    "t0": 6.35,
+    "text": "The particles are slower.",
+    "who": "hero",
+    "t1": 8.15
+   },
+   {
+    "t0": 8.15,
+    "text": "We have about two and a half hours.",
+    "who": "hero",
+    "t1": 10.58
+   },
+   {
+    "t0": 10.58,
+    "text": "We can bury the shelter in Moon dirt, or charge the batteries.",
+    "who": "hero",
+    "t1": 14.63
+   },
+   {
+    "t0": 14.63,
+    "text": "There is no time for both.",
+    "who": "hero",
+    "t1": 16.83
+   }
+  ],
+  "kb": 3191
+ },
+ "flare_300": {
+  "duration": 16.375,
+  "loop": false,
+  "ui": [
+   {
+    "t": 1,
+    "ui": "tip",
+    "id": "flare"
+   },
+   {
+    "t": 1.5,
+    "ui": "cut"
+   },
+   {
+    "t": 4.84,
+    "ui": "tip",
+    "id": "storm_flare"
+   },
+   {
+    "t": 6.2,
+    "ui": "cut"
+   },
+   {
+    "t": 7.92,
+    "ui": "cut"
+   },
+   {
+    "t": 9.92,
+    "ui": "cut"
+   },
+   {
+    "t": 10.4,
+    "ui": "opt",
+    "id": "m1a"
+   },
+   {
+    "t": 12.55,
+    "ui": "opt",
+    "id": "m1b"
+   }
+  ],
+  "captions": [
+   {
+    "t0": 1.65,
+    "text": "That flash was a solar flare.",
+    "who": "hero",
+    "t1": 4.16
+   },
+   {
+    "t0": 4.16,
+    "text": "The light took eight minutes to get here.",
+    "who": "hero",
+    "t1": 6.3
+   },
+   {
+    "t0": 6.3,
+    "text": "The particles are slower.",
+    "who": "hero",
+    "t1": 8.03
+   },
+   {
+    "t0": 8.03,
+    "text": "We have about five hours.",
+    "who": "hero",
+    "t1": 10.08
+   },
+   {
+    "t0": 10.08,
+    "text": "We can bury the shelter in Moon dirt, or charge the batteries.",
+    "who": "hero",
+    "t1": 14.13
+   },
+   {
+    "t0": 14.13,
+    "text": "There is no time for both.",
+    "who": "hero",
+    "t1": 16.33
+   }
+  ],
+  "kb": 3151
  },
  "flare_loop": {
   "duration": 4,
   "loop": true,
-  "choicesAt": null,
+  "ui": [],
   "captions": [],
-  "kb": 624
+  "kb": 627
  },
  "m1a": {
-  "duration": 11.458,
+  "duration": 11.125,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 0.2,
+    "ui": "tag",
+    "text": "The rover piles Moon dirt on the roof",
+    "dur": 1.5,
+    "x": 0.132,
+    "y": 0.248
+   },
+   {
+    "t": 1.75,
+    "ui": "fx",
+    "k": "shield",
+    "d": 1,
+    "text": "Moon dirt blocks radiation",
+    "x": 0.655,
+    "y": 0.092
+   },
+   {
+    "t": 2.25,
+    "ui": "cut"
+   },
+   {
+    "t": 6.92,
+    "ui": "cut"
+   },
+   {
+    "t": 7.42,
+    "ui": "fx",
+    "k": "power",
+    "d": -1,
+    "text": "The rover used the battery",
+    "x": 0.53,
+    "y": 0.19
+   },
+   {
+    "t": 8.17,
+    "ui": "cut"
+   },
+   {
+    "t": 10,
+    "ui": "cut"
+   }
+  ],
   "captions": [
    {
     "t0": 2.4,
@@ -722,12 +1932,55 @@
     "t1": 10.44
    }
   ],
-  "kb": 2073
+  "kb": 2022
  },
  "m1b": {
-  "duration": 9.542,
+  "duration": 9.208,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 0.2,
+    "ui": "tag",
+    "text": "Solar panels turn to face the Sun",
+    "dur": 1.2,
+    "x": 0.24,
+    "y": 0.27
+   },
+   {
+    "t": 1.45,
+    "ui": "fx",
+    "k": "power",
+    "d": 1,
+    "text": "Batteries charged",
+    "x": 0.53,
+    "y": 0.19
+   },
+   {
+    "t": 2.25,
+    "ui": "cut"
+   },
+   {
+    "t": 4.92,
+    "ui": "cut"
+   },
+   {
+    "t": 5.22,
+    "ui": "fx",
+    "k": "shield",
+    "d": -1,
+    "text": "No dirt on the roof: a thin shield",
+    "x": 0.5,
+    "y": 0.06
+   },
+   {
+    "t": 6,
+    "ui": "cut"
+   },
+   {
+    "t": 8.08,
+    "ui": "cut"
+   }
+  ],
   "captions": [
    {
     "t0": 2.44,
@@ -760,12 +2013,68 @@
     "t1": 8.22
    }
   ],
-  "kb": 1568
+  "kb": 1518
  },
  "m1s": {
-  "duration": 12.292,
+  "duration": 11.958,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 0.95,
+    "ui": "tag",
+    "text": "My sensor: the first fast particles",
+    "dur": 0.51,
+    "x": 0.8,
+    "y": 0.66
+   },
+   {
+    "t": 1.5,
+    "ui": "cut"
+   },
+   {
+    "t": 6.42,
+    "ui": "cut"
+   },
+   {
+    "t": 7.02,
+    "ui": "fx",
+    "k": "shield",
+    "d": 1,
+    "text": "Dirt on the roof, in time",
+    "x": 0.655,
+    "y": 0.092
+   },
+   {
+    "t": 7.58,
+    "ui": "cut"
+   },
+   {
+    "t": 8.33,
+    "ui": "fx",
+    "k": "power",
+    "d": 1,
+    "text": "Batteries charged too",
+    "x": 0.53,
+    "y": 0.19
+   },
+   {
+    "t": 8.67,
+    "ui": "cut"
+   },
+   {
+    "t": 9.33,
+    "ui": "fx",
+    "k": "air",
+    "d": -1,
+    "text": "Nobody checked the air system",
+    "x": 0.2,
+    "y": 0.52
+   },
+   {
+    "t": 10.83,
+    "ui": "cut"
+   }
+  ],
   "captions": [
    {
     "t0": 1.63,
@@ -792,12 +2101,78 @@
     "t1": 10.94
    }
   ],
-  "kb": 2338
+  "kb": 2285
  },
  "particles": {
-  "duration": 15.208,
+  "duration": 14.958,
   "loop": false,
-  "choicesAt": 12.42,
+  "ui": [
+   {
+    "t": 0.3,
+    "ui": "tip",
+    "id": "storm_particles"
+   },
+   {
+    "t": 1.25,
+    "ui": "cut"
+   },
+   {
+    "t": 2.68,
+    "ui": "tip",
+    "id": "radiation"
+   },
+   {
+    "t": 5.7,
+    "ui": "cut"
+   },
+   {
+    "t": 6.92,
+    "ui": "cut"
+   },
+   {
+    "t": 7.02,
+    "ui": "tip",
+    "id": "shelter"
+   },
+   {
+    "t": 8,
+    "ui": "cut"
+   },
+   {
+    "t": 8.45,
+    "ui": "tag",
+    "text": "The battery is dropping",
+    "dur": 0.59,
+    "x": 0.5,
+    "y": 0.301
+   },
+   {
+    "t": 9.08,
+    "ui": "cut"
+   },
+   {
+    "t": 12.42,
+    "ui": "cut"
+   },
+   {
+    "t": 12.52,
+    "ui": "tag",
+    "text": "The greenhouse: lettuce under grow lights",
+    "dur": 2.4,
+    "x": 0.236,
+    "y": 0.537
+   },
+   {
+    "t": 12.93,
+    "ui": "opt",
+    "id": "m2a"
+   },
+   {
+    "t": 13.56,
+    "ui": "opt",
+    "id": "m2b"
+   }
+  ],
   "captions": [
    {
     "t0": 1.33,
@@ -853,158 +2228,422 @@
  "particles_loop": {
   "duration": 4,
   "loop": true,
-  "choicesAt": null,
+  "ui": [],
   "captions": [],
-  "kb": 697
+  "kb": 695
  },
  "m2a": {
-  "duration": 8.042,
+  "duration": 7.958,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 0.15,
+    "ui": "tag",
+    "text": "Lettuce, under the grow lights",
+    "dur": 0.8,
+    "x": 0.491,
+    "y": 0.55
+   },
+   {
+    "t": 0.95,
+    "ui": "fx",
+    "k": "air",
+    "d": 1,
+    "text": "With light, plants make oxygen",
+    "x": 0.491,
+    "y": 0.55
+   },
+   {
+    "t": 1.67,
+    "ui": "cut"
+   },
+   {
+    "t": 3.83,
+    "ui": "cut"
+   },
+   {
+    "t": 4.28,
+    "ui": "fx",
+    "k": "power",
+    "d": -1,
+    "text": "The lights eat power",
+    "x": 0.5,
+    "y": 0.301
+   },
+   {
+    "t": 5.08,
+    "ui": "cut"
+   },
+   {
+    "t": 6.83,
+    "ui": "cut"
+   }
+  ],
   "captions": [
    {
-    "t0": 1.63,
+    "t0": 1.79,
     "text": "The plants keep making oxygen.",
     "who": "hero",
-    "t1": 4.15
+    "t1": 4.32
    },
    {
-    "t0": 4.97,
+    "t0": 5.22,
     "text": "And the battery keeps crying.",
     "who": "crew",
-    "t1": 7
+    "t1": 7.25
    }
   ],
-  "kb": 1391
+  "kb": 1381
  },
  "m2b": {
-  "duration": 8.625,
+  "duration": 8.792,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 0.1,
+    "ui": "tag",
+    "text": "Lettuce",
+    "dur": 0.85,
+    "x": 0.491,
+    "y": 0.55
+   },
+   {
+    "t": 1.05,
+    "ui": "fx",
+    "k": "air",
+    "d": -1,
+    "text": "No light: the lettuce wilts and stops making oxygen",
+    "x": 0.491,
+    "y": 0.55
+   },
+   {
+    "t": 2,
+    "ui": "cut"
+   },
+   {
+    "t": 3.33,
+    "ui": "cut"
+   },
+   {
+    "t": 3.78,
+    "ui": "fx",
+    "k": "power",
+    "d": 1,
+    "text": "Lights off: power saved",
+    "x": 0.5,
+    "y": 0.301
+   },
+   {
+    "t": 4.58,
+    "ui": "cut"
+   },
+   {
+    "t": 7.67,
+    "ui": "cut"
+   }
+  ],
   "captions": [
    {
-    "t0": 1.88,
+    "t0": 2.21,
     "text": "Power saved.",
     "who": "hero",
-    "t1": 3.38
+    "t1": 3.71
    },
    {
-    "t0": 4.26,
+    "t0": 4.76,
     "text": "Lettuce takes three weeks to grow back.",
     "who": "crew",
-    "t1": 6.28
+    "t1": 6.78
    },
    {
-    "t0": 6.28,
+    "t0": 6.78,
     "text": "I counted.",
     "who": "crew",
-    "t1": 7.58
+    "t1": 8.08
    }
   ],
-  "kb": 1628
+  "kb": 1576
  },
  "m2p": {
-  "duration": 9.208,
+  "duration": 9.375,
   "loop": false,
-  "choicesAt": null,
-  "captions": [
+  "ui": [
    {
-    "t0": 1.42,
-    "text": "I plugged us into the night battery.",
-    "who": "hero",
-    "t1": 3.49
+    "t": 0.9,
+    "ui": "fx",
+    "k": "power",
+    "d": 1,
+    "text": "The night battery is plugged in",
+    "x": 0.8,
+    "y": 0.6
    },
    {
-    "t0": 3.49,
-    "text": "Lights and air.",
-    "who": "hero",
-    "t1": 5.19
+    "t": 1.5,
+    "ui": "cut"
    },
    {
-    "t0": 5.88,
-    "text": "That was for the long lunar night.",
-    "who": "crew",
-    "t1": 8.05
+    "t": 5,
+    "ui": "cut"
+   },
+   {
+    "t": 5.3,
+    "ui": "fx",
+    "k": "air",
+    "d": 1,
+    "text": "Lights stay on: the lettuce keeps making oxygen",
+    "x": 0.491,
+    "y": 0.55
+   },
+   {
+    "t": 6.25,
+    "ui": "cut"
+   },
+   {
+    "t": 6.82,
+    "ui": "tag",
+    "text": "Later: the long lunar night needs this battery",
+    "dur": 1.31,
+    "x": 0.22,
+    "y": 0.5
+   },
+   {
+    "t": 8.17,
+    "ui": "cut"
    }
   ],
-  "kb": 1632
+  "captions": [
+   {
+    "t0": 1.67,
+    "text": "I plugged us into the night battery.",
+    "who": "hero",
+    "t1": 3.74
+   },
+   {
+    "t0": 3.74,
+    "text": "Lights and air.",
+    "who": "hero",
+    "t1": 5.44
+   },
+   {
+    "t0": 6.38,
+    "text": "That was for the long lunar night.",
+    "who": "crew",
+    "t1": 8.55
+   }
+  ],
+  "kb": 1756
  },
  "m2f": {
   "duration": 8.875,
   "loop": false,
-  "choicesAt": null,
-  "ui": [],
+  "ui": [
+   {
+    "t": 0.2,
+    "ui": "tag",
+    "text": "Lettuce trays, carried into the shelter",
+    "dur": 0.7,
+    "x": 0.282,
+    "y": 0.637
+   },
+   {
+    "t": 0.95,
+    "ui": "fx",
+    "k": "air",
+    "d": 1,
+    "text": "The plants clean the air in here",
+    "x": 0.282,
+    "y": 0.637
+   },
+   {
+    "t": 1.4,
+    "ui": "fx",
+    "k": "power",
+    "d": 1,
+    "text": "Greenhouse lights off",
+    "x": 0.562,
+    "y": 0.146
+   },
+   {
+    "t": 1.83,
+    "ui": "cut"
+   },
+   {
+    "t": 3.6,
+    "ui": "fx",
+    "k": "shield",
+    "d": -1,
+    "text": "One more trip through the thin-walled room",
+    "x": 0.8,
+    "y": 0.52
+   },
+   {
+    "t": 5.92,
+    "ui": "cut"
+   },
+   {
+    "t": 7.5,
+    "ui": "cut"
+   }
+  ],
   "captions": [
    {
-    "t0": 1.67,
+    "t0": 2,
     "text": "I carried the plants in here.",
     "who": "hero",
-    "t1": 3.44
+    "t1": 3.77
    },
    {
-    "t0": 3.44,
+    "t0": 3.77,
     "text": "They clean the air where we breathe.",
     "who": "hero",
-    "t1": 5.71
+    "t1": 6.04
    },
    {
-    "t0": 5.71,
+    "t0": 6.04,
     "text": "I am holding a lettuce.",
     "who": "crew",
-    "t1": 7.48
+    "t1": 7.82
    }
   ],
-  "kb": 1768
+  "kb": 1711
  },
  "peak": {
-  "duration": 16.542,
+  "duration": 16.042,
   "loop": false,
-  "choicesAt": 11.75,
-  "captions": [
+  "ui": [
    {
-    "t0": 1.11,
-    "text": "A day after the flare, the big cloud arrives.",
-    "who": "hero",
-    "t1": 4.36
+    "t": 0.3,
+    "ui": "tip",
+    "id": "storm_cloud"
    },
    {
-    "t0": 5.39,
-    "text": "The air cleaner just froze.",
-    "who": "crew",
-    "t1": 7.15
+    "t": 1,
+    "ui": "cut"
    },
    {
-    "t0": 7.15,
-    "text": "A particle flipped a bit in its computer.",
-    "who": "hero",
-    "t1": 9.71
+    "t": 3.67,
+    "ui": "cut"
    },
    {
-    "t0": 9.71,
-    "text": "The reset switch is out there.",
-    "who": "hero",
-    "t1": 11.94
+    "t": 3.77,
+    "ui": "tag",
+    "text": "The air cleaner",
+    "dur": 0.5,
+    "x": 0.542,
+    "y": 0.242
    },
    {
-    "t0": 11.94,
-    "text": "Stay in here with stale air, or dash out and take the dose?",
-    "who": "hero",
-    "t1": 16.22
+    "t": 4.27,
+    "ui": "tag",
+    "text": "Frozen! The fan has stopped",
+    "dur": 0.69,
+    "x": 0.542,
+    "y": 0.242
+   },
+   {
+    "t": 5,
+    "ui": "cut"
+   },
+   {
+    "t": 6.83,
+    "ui": "cut"
+   },
+   {
+    "t": 7.3,
+    "ui": "tip",
+    "id": "bitflip"
+   },
+   {
+    "t": 11.5,
+    "ui": "cut"
+   },
+   {
+    "t": 11.69,
+    "ui": "opt",
+    "id": "m3a"
+   },
+   {
+    "t": 13.8,
+    "ui": "opt",
+    "id": "m3b"
    }
   ],
-  "kb": 3120
+  "captions": [
+   {
+    "t0": 1.15,
+    "text": "Then the big cloud from the Sun arrives.",
+    "who": "hero",
+    "t1": 4
+   },
+   {
+    "t0": 5.14,
+    "text": "The air cleaner just froze.",
+    "who": "crew",
+    "t1": 6.9
+   },
+   {
+    "t0": 6.9,
+    "text": "A particle flipped a bit in its computer.",
+    "who": "hero",
+    "t1": 9.46
+   },
+   {
+    "t0": 9.46,
+    "text": "The reset switch is out there.",
+    "who": "hero",
+    "t1": 11.69
+   },
+   {
+    "t0": 11.69,
+    "text": "Stay in here with stale air, or dash out and take the dose?",
+    "who": "hero",
+    "t1": 15.97
+   }
+  ],
+  "kb": 3074
  },
  "peak_loop": {
   "duration": 4,
   "loop": true,
-  "choicesAt": null,
+  "ui": [],
   "captions": [],
   "kb": 692
  },
  "m3a": {
-  "duration": 7.667,
+  "duration": 7.542,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 0.35,
+    "ui": "fx",
+    "k": "shield",
+    "d": 1,
+    "text": "Safe behind the thick wall",
+    "x": 0.305,
+    "y": 0.113
+   },
+   {
+    "t": 1.75,
+    "ui": "cut"
+   },
+   {
+    "t": 4.58,
+    "ui": "cut"
+   },
+   {
+    "t": 4.88,
+    "ui": "fx",
+    "k": "air",
+    "d": -1,
+    "text": "Still frozen: the air gets stale",
+    "x": 0.542,
+    "y": 0.242
+   },
+   {
+    "t": 5.92,
+    "ui": "cut"
+   }
+  ],
   "captions": [
    {
     "t0": 1.95,
@@ -1025,90 +2664,233 @@
     "t1": 5.07
    }
   ],
-  "kb": 1390
+  "kb": 1344
  },
  "m3b": {
-  "duration": 8.417,
+  "duration": 8.542,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 1.17,
+    "ui": "cut"
+   },
+   {
+    "t": 1.87,
+    "ui": "fx",
+    "k": "air",
+    "d": 1,
+    "text": "Reset! The air cleaner runs again",
+    "x": 0.542,
+    "y": 0.242
+   },
+   {
+    "t": 2.83,
+    "ui": "cut"
+   },
+   {
+    "t": 3.38,
+    "ui": "fx",
+    "k": "shield",
+    "d": -2,
+    "text": "Radiation, taken outside at the worst moment",
+    "x": 0.229,
+    "y": 0.506
+   },
+   {
+    "t": 4.08,
+    "ui": "cut"
+   },
+   {
+    "t": 7.17,
+    "ui": "cut"
+   }
+  ],
   "captions": [
    {
-    "t0": 3.72,
+    "t0": 4.3,
     "text": "Fresh air.",
     "who": "hero",
-    "t1": 4.62
+    "t1": 5.2
    },
    {
-    "t0": 4.62,
+    "t0": 5.2,
     "text": "My dose badge is not happy.",
     "who": "hero",
-    "t1": 7.02
+    "t1": 7.6
    }
   ],
-  "kb": 1568
+  "kb": 1593
  },
  "m3d": {
-  "duration": 9.667,
+  "duration": 10.042,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 0.25,
+    "ui": "tag",
+    "text": "Dose badges: how much radiation each of us has taken",
+    "dur": 1.46,
+    "x": 0.229,
+    "y": 0.506
+   },
+   {
+    "t": 1.75,
+    "ui": "cut"
+   },
+   {
+    "t": 5.58,
+    "ui": "cut"
+   },
+   {
+    "t": 6.83,
+    "ui": "cut"
+   },
+   {
+    "t": 7.03,
+    "ui": "fx",
+    "k": "shield",
+    "d": -1,
+    "text": "A short trip, for the lowest badge",
+    "x": 0.798,
+    "y": 0.125
+   },
+   {
+    "t": 8.17,
+    "ui": "cut"
+   },
+   {
+    "t": 8.77,
+    "ui": "fx",
+    "k": "air",
+    "d": 1,
+    "text": "Reset! The air cleaner runs again",
+    "x": 0.542,
+    "y": 0.242
+   }
+  ],
   "captions": [
    {
-    "t0": 1.63,
+    "t0": 1.88,
     "text": "I checked every badge.",
     "who": "hero",
-    "t1": 3.3
+    "t1": 3.55
    },
    {
-    "t0": 3.3,
+    "t0": 3.55,
     "text": "You have taken the least radiation.",
     "who": "hero",
-    "t1": 5.53
+    "t1": 5.78
    },
    {
-    "t0": 5.53,
+    "t0": 5.78,
     "text": "Lucky me.",
     "who": "crew",
-    "t1": 6.7
+    "t1": 6.95
    }
   ],
-  "kb": 1781
+  "kb": 1855
  },
  "m3c": {
-  "duration": 12.25,
+  "duration": 12.542,
   "loop": false,
-  "choicesAt": null,
-  "captions": [
+  "ui": [
    {
-    "t0": 3.29,
-    "text": "I drove the rover from in here and pressed the switch.",
-    "who": "hero",
-    "t1": 6.44
+    "t": 0.25,
+    "ui": "tag",
+    "text": "A remote control for the rover",
+    "dur": 1.2,
+    "x": 0.8,
+    "y": 0.7
    },
    {
-    "t0": 6.44,
-    "text": "No dose for anyone.",
-    "who": "hero",
-    "t1": 8.54
+    "t": 1.5,
+    "ui": "cut"
    },
    {
-    "t0": 9.18,
-    "text": "The rover ate the battery.",
-    "who": "crew",
-    "t1": 10.67
+    "t": 1.65,
+    "ui": "tag",
+    "text": "The reset switch, outside the shelter",
+    "dur": 1,
+    "x": 0.549,
+    "y": 0.197
    },
    {
-    "t0": 10.67,
-    "text": "Again.",
-    "who": "crew",
-    "t1": 11.76
+    "t": 2.8,
+    "ui": "fx",
+    "k": "air",
+    "d": 1,
+    "text": "Switch pressed: the air cleaner resets",
+    "x": 0.549,
+    "y": 0.197
+   },
+   {
+    "t": 3.75,
+    "ui": "cut"
+   },
+   {
+    "t": 8.58,
+    "ui": "cut"
+   },
+   {
+    "t": 9.03,
+    "ui": "fx",
+    "k": "power",
+    "d": -1,
+    "text": "The rover used the battery",
+    "x": 0.5,
+    "y": 0.301
+   },
+   {
+    "t": 9.83,
+    "ui": "cut"
    }
   ],
-  "kb": 2392
+  "captions": [
+   {
+    "t0": 3.88,
+    "text": "I drove the rover from in here and pressed the switch.",
+    "who": "hero",
+    "t1": 7.03
+   },
+   {
+    "t0": 7.03,
+    "text": "No dose for anyone.",
+    "who": "hero",
+    "t1": 9.13
+   },
+   {
+    "t0": 9.93,
+    "text": "The rover ate the battery.",
+    "who": "crew",
+    "t1": 11.42
+   },
+   {
+    "t0": 11.42,
+    "text": "Again.",
+    "who": "crew",
+    "t1": 12.51
+   }
+  ],
+  "kb": 2509
  },
  "end_thrive": {
-  "duration": 11.458,
+  "duration": 10.125,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 0.4,
+    "ui": "tip",
+    "id": "ending"
+   },
+   {
+    "t": 1.67,
+    "ui": "cut"
+   },
+   {
+    "t": 4.23,
+    "ui": "cut"
+   }
+  ],
   "captions": [
    {
     "t0": 1.79,
@@ -1138,21 +2920,33 @@
     "t0": 6.7,
     "text": "That was you.",
     "who": "hero",
-    "t1": 7.88
-   },
-   {
-    "t0": 7.88,
-    "text": "Now go and build me.",
-    "who": "hero",
-    "t1": 9.71
+    "t1": 8.14
    }
   ],
-  "kb": 2061
+  "kb": 1767
  },
  "end_lesson": {
-  "duration": 10.208,
+  "duration": 8.875,
   "loop": false,
-  "choicesAt": null,
+  "ui": [
+   {
+    "t": 0.4,
+    "ui": "tip",
+    "id": "ending"
+   },
+   {
+    "t": 1.25,
+    "ui": "cut"
+   },
+   {
+    "t": 5.42,
+    "ui": "cut"
+   },
+   {
+    "t": 6.5,
+    "ui": "cut"
+   }
+  ],
   "captions": [
    {
     "t0": 1.4,
@@ -1171,21 +2965,28 @@
     "text": "Now you know why it matters.",
     "who": "hero",
     "t1": 5.8
-   },
-   {
-    "t0": 6.63,
-    "text": "Now go and build me.",
-    "who": "hero",
-    "t1": 8.46
    }
   ],
-  "kb": 1918
+  "kb": 1654
  },
  "end_evac": {
-  "duration": 12.917,
+  "duration": 11.583,
   "loop": false,
-  "choicesAt": null,
-  "ui": [],
+  "ui": [
+   {
+    "t": 0.4,
+    "ui": "tip",
+    "id": "ending"
+   },
+   {
+    "t": 2,
+    "ui": "cut"
+   },
+   {
+    "t": 7.67,
+    "ui": "cut"
+   }
+  ],
   "captions": [
    {
     "t0": 2.17,
@@ -1209,15 +3010,9 @@
     "t0": 7.86,
     "text": "My notes.",
     "who": "crew",
-    "t1": 8.97
-   },
-   {
-    "t0": 8.97,
-    "text": "Now go and build me.",
-    "who": "hero",
-    "t1": 10.79
+    "t1": 9.08
    }
   ],
-  "kb": 1235
+  "kb": 1109
  }
 }
