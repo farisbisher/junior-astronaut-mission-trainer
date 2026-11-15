@@ -1,6 +1,6 @@
 /* Junior Astronaut Mission Trainer: web player. The whole interface sits on the picture, in thin uppercase lines:
    choices beside the character with a key glyph each, a boxed objective, right-aligned tutorial hints, and every
-   consequence shown as a chevron, a number and a reason. Code written with AI assistance (Claude Fable 5.2). */
+   consequence shown as a chevron, a number and a reason. Code written with AI assistance. */
 :root { --bg: #05070a; --ink: #f3f6fa; --mut: #a3adba; --line: rgba(255, 255, 255, .3); --blue: #6fd0ff; --green: #7dffb2; --red: #ff5a4d; --gold: #ffc247; --strip: rgba(6, 9, 14, .68); --panel: #0d1118;
   --font: "Avenir Next", "Futura", "Century Gothic", "Segoe UI", "Helvetica Neue", Arial, sans-serif; }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }

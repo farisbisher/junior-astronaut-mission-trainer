@@ -4,8 +4,8 @@
 // (the same shot, still waiting) runs behind each choice, and one music bed per chapter plays across the cuts.
 // Everything the player reads or presses is drawn on the picture: the choices (each appears as the film names it),
 // the objective, tutorial hints, names for things in the shot, and every consequence as a meter change with its reason.
-// The storm is real: each run draws one from data/donki.json, which tools/fetch_data.mjs pulled from NASA's DONKI API.
-// Nothing is collected or sent anywhere. Code written with AI assistance (Claude Fable 5.2).
+// The storm is real: each run draws one from data/donki.json, which was pulled from NASA's DONKI API.
+// Nothing is collected or sent anywhere. Code written with AI assistance.
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const stage = $('#stage'), vids = [$('#vA'), $('#vB')];
 let STORY, CLIPS, DONKI, cur = 0, node = null, clipName = null, nav = 0, Q = [], idle = false, busy = false, timerId = 0, lateId = 0, actx = null, tipHtml = '';

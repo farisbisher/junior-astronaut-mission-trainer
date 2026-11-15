@@ -1,7 +1,7 @@
 {
  "title": "Junior Astronaut Mission Trainer",
  "tagline": "Every choice you make builds your future self.",
- "credits": "Story state machine for the web player. Code and text written with AI assistance (Claude Fable 5.2); idea and direction by Faris.",
+ "credits": "Story for the web player. Code and text written with AI assistance; idea and direction by Faris.",
  "start": "open",
  "specialists": {
   "weather": { "name": "Space-weather scientist", "icon": "☀️", "does": "You read the Sun and warn the crew before a storm.", "meter": "shield" },

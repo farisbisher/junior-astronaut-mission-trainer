@@ -7,13 +7,9 @@ every consequence is shown where it happens.
 
 Open `index.html` from a web server (or the published site). No install, no account, nothing collected.
 
-## How it was made, and where AI was used
-- **Picture:** every frame is drawn by a program (three.js scenes rendered frame by frame in headless Chrome, encoded
-  with ffmpeg). The program was written with AI assistance (Claude Fable 5.2, Anthropic). No AI image or video
-  generator was used. Every clip carries a "Made with AI" mark.
-- **Voices:** AI-generated speech (Kokoro-82M, open source, run locally).
-- **Music and effects:** synthesized in code (earshot sound bank, open source).
-- **Player and text:** written with AI assistance. The idea and direction are the team's.
+## Made with AI
+The game's code was written with AI assistance, and the voices are AI-generated speech. Every scene carries a visible
+"Made with AI" mark. The idea and direction are the team's.
 
 ## Data
 `data/donki.json` holds the storm records the game draws from: flare alerts, particle events, eruption clouds and
